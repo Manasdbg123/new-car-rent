@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:car_rental;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: false
+  flyway:
+    enabled: false
+
+app:
+  security:
+    jwt:
+      secret: test-secret-test-secret-test-secret-test-secret
+      access-token-seconds: 900
+      refresh-token-seconds: 604800
