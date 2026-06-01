@@ -33,55 +33,47 @@ public class BookingService {
 			Long userId,
 			BookingRequest request
 	) {
-
-		if (request.getEndDate().isBefore(request.getStartDate())) {
-			throw new BadRequestException(
-					"End date must be after start date"
-			);
+		// FIXED: Using getEndAt() and getStartAt() to match updated BookingRequest DTO
+		if (request.getEndAt().isBefore(request.getStartAt())) {
+			throw new BadRequestException("End date must be after start date");
 		}
 
 		AppUser user = userRepository.findById(userId)
-				.orElseThrow(() ->
-						new ResourceNotFoundException("User not found")
-				);
+				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
 		Car car = carRepository.findById(request.getCarId())
-				.orElseThrow(() ->
-						new ResourceNotFoundException("Car not found")
-				);
+				.orElseThrow(() -> new ResourceNotFoundException("Car not found"));
 
+		// FIXED: Passing correct updated getter fields
 		boolean booked = bookingRepository.existsActiveBookingConflict(
 				car.getId(),
-				request.getStartDate(),
-				request.getEndDate()
+				request.getStartAt(),
+				request.getEndAt()
 		);
 
 		if (booked) {
-			throw new BadRequestException(
-					"Car already booked for selected dates"
-			);
+			throw new BadRequestException("Car already booked for selected dates");
 		}
 
 		long days = ChronoUnit.DAYS.between(
-				request.getStartDate(),
-				request.getEndDate()
+				request.getStartAt(),
+				request.getEndAt()
 		);
 
 		if (days <= 0) {
-			throw new BadRequestException(
-					"Booking duration must be at least 1 day"
-			);
+			throw new BadRequestException("Booking duration must be at least 1 day");
 		}
 
-		BigDecimal totalPrice = car.getPricePerDay()
-				.multiply(BigDecimal.valueOf(days));
+		// FIXED: Car entity uses getDailyRate() mapped from daily_rate column
+		BigDecimal totalAmount = car.getDailyRate().multiply(BigDecimal.valueOf(days));
 
+		// FIXED: Booking entity builder uses startAt, endAt, and totalAmount
 		Booking booking = Booking.builder()
 				.user(user)
 				.car(car)
-				.startDate(request.getStartDate())
-				.endDate(request.getEndDate())
-				.totalPrice(totalPrice)
+				.startAt(request.getStartAt())
+				.endAt(request.getEndAt())
+				.totalAmount(totalAmount)
 				.status(BookingStatus.CONFIRMED)
 				.build();
 
@@ -92,8 +84,8 @@ public class BookingService {
 		return bookingMapper.toResponse(savedBooking);
 	}
 
+	@Transactional(readOnly = true)
 	public List<BookingResponse> getUserBookings(Long userId) {
-
 		return bookingRepository.findByUserIdOrderByCreatedAtDesc(userId)
 				.stream()
 				.map(bookingMapper::toResponse)
@@ -105,15 +97,11 @@ public class BookingService {
 			Long bookingId,
 			Long userId
 	) {
-
 		Booking booking = bookingRepository
 				.findByIdAndUserId(bookingId, userId)
-				.orElseThrow(() ->
-						new ResourceNotFoundException("Booking not found")
-				);
+				.orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
 
 		booking.setStatus(BookingStatus.CANCELLED);
-
 		Booking updatedBooking = bookingRepository.save(booking);
 
 		log.info("Booking cancelled successfully: {}", bookingId);

@@ -1,11 +1,6 @@
 package com.carrental.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -18,76 +13,211 @@ import java.util.List;
 @Table(
 		name = "cars",
 		indexes = {
-				@Index(name = "idx_car_brand", columnList = "brand"),
-				@Index(name = "idx_car_model", columnList = "model"),
-				@Index(name = "idx_car_city", columnList = "city"),
-				@Index(name = "idx_car_available", columnList = "available")
+				@Index(name = "idx_cars_brand", columnList = "brand"),
+				@Index(name = "idx_cars_model", columnList = "model"),
+				@Index(name = "idx_cars_city", columnList = "city"),
+				@Index(name = "idx_cars_status", columnList = "status")
 		}
 )
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Car {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 80)
 	private String brand;
 
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 80)
 	private String model;
 
-	@Column(nullable = false, length = 50)
-	private String type;
+	@Column(name = "manufacture_year", nullable = false)
+	private Integer manufactureYear;
+
+	@Column(name = "license_plate", nullable = false, unique = true, length = 30)
+	private String licensePlate;
+
+	@Column(name = "daily_rate", nullable = false, precision = 12, scale = 2)
+	private BigDecimal dailyRate;
 
 	@Column(nullable = false)
-	private Integer year;
+	private Integer seats;
 
-	@Column(nullable = false, unique = true, length = 30)
-	private String registrationNumber;
-
-	@Column(nullable = false, precision = 10, scale = 2)
-	private BigDecimal pricePerDay;
-
-	@Column(nullable = false)
-	private Integer seatingCapacity;
-
-	@Column(nullable = false)
+	@Column(name = "fuel_type", nullable = false, length = 60)
 	private String fuelType;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 60)
 	private String transmission;
 
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 60)
 	private String city;
 
-	@Column(nullable = false, length = 1000)
+	// Note: Ensuring imageUrl exists so your frontend images continue to load
+	@Column(name = "image_url", length = 1000)
 	private String imageUrl;
 
-	@Column(length = 2000)
+	@Column(length = 500)
 	private String description;
 
-	@Builder.Default
-	@Column(nullable = false)
-	private Boolean available = true;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, length = 30)
+	private CarStatus status;
 
-	@OneToMany(
-			mappedBy = "car",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
-	)
-	@Builder.Default
+	@Version
+	private Long version;
+
+	@OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Booking> bookings = new ArrayList<>();
 
 	@CreationTimestamp
-	@Column(nullable = false, updatable = false)
+	@Column(name = "created_at", nullable = false, updatable = false)
 	private LocalDateTime createdAt;
 
 	@UpdateTimestamp
-	@Column(nullable = false)
+	@Column(name = "updated_at", nullable = false)
 	private LocalDateTime updatedAt;
+
+	// Constructors
+	public Car() {
+	}
+
+	// ==========================================
+	// EXPLICIT GETTERS & SETTERS (LOMBOK BYPASS)
+	// ==========================================
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public Integer getManufactureYear() {
+		return manufactureYear;
+	}
+
+	public void setManufactureYear(Integer manufactureYear) {
+		this.manufactureYear = manufactureYear;
+	}
+
+	public String getLicensePlate() {
+		return licensePlate;
+	}
+
+	public void setLicensePlate(String licensePlate) {
+		this.licensePlate = licensePlate;
+	}
+
+	public BigDecimal getDailyRate() {
+		return dailyRate;
+	}
+
+	public void setDailyRate(BigDecimal dailyRate) {
+		this.dailyRate = dailyRate;
+	}
+
+	public Integer getSeats() {
+		return seats;
+	}
+
+	public void setSeats(Integer seats) {
+		this.seats = seats;
+	}
+
+	public String getFuelType() {
+		return fuelType;
+	}
+
+	public void setFuelType(String fuelType) {
+		this.fuelType = fuelType;
+	}
+
+	public String getTransmission() {
+		return transmission;
+	}
+
+	public void setTransmission(String transmission) {
+		this.transmission = transmission;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public CarStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(CarStatus status) {
+		this.status = status;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public List<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<Booking> bookings) {
+		this.bookings = bookings;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 }

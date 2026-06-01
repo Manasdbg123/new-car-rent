@@ -17,33 +17,29 @@ import java.math.BigDecimal;
 public class CarRequest {
 
 	@NotBlank(message = "Brand is required")
-	@Size(max = 100, message = "Brand cannot exceed 100 characters")
+	@Size(max = 80, message = "Brand cannot exceed 80 characters")
 	private String brand;
 
 	@NotBlank(message = "Model is required")
-	@Size(max = 100, message = "Model cannot exceed 100 characters")
+	@Size(max = 80, message = "Model cannot exceed 80 characters")
 	private String model;
 
-	@NotBlank(message = "Car type is required")
-	@Size(max = 50, message = "Type cannot exceed 50 characters")
-	private String type;
-
 	@NotNull(message = "Manufacturing year is required")
-	@Min(value = 2000, message = "Year must be greater than or equal to 2000")
+	@Min(value = 1980, message = "Year must be greater than or equal to 1980")
 	@Max(value = 2100, message = "Invalid manufacturing year")
-	private Integer year;
+	private Integer manufactureYear;
 
-	@NotBlank(message = "Registration number is required")
-	@Size(max = 30, message = "Registration number cannot exceed 30 characters")
-	private String registrationNumber;
+	@NotBlank(message = "License plate is required")
+	@Size(max = 30, message = "License plate cannot exceed 30 characters")
+	private String licensePlate;
 
-	@NotNull(message = "Price per day is required")
-	@DecimalMin(value = "1.0", message = "Price per day must be greater than 0")
-	private BigDecimal pricePerDay;
+	@NotNull(message = "Daily rate is required")
+	@DecimalMin(value = "1.0", message = "Daily rate must be greater than 0")
+	private BigDecimal dailyRate;
 
 	@NotNull(message = "Seating capacity is required")
 	@Positive(message = "Seating capacity must be positive")
-	private Integer seatingCapacity;
+	private Integer seats;
 
 	@NotBlank(message = "Fuel type is required")
 	private String fuelType;
@@ -52,15 +48,15 @@ public class CarRequest {
 	private String transmission;
 
 	@NotBlank(message = "City is required")
-	@Size(max = 100, message = "City cannot exceed 100 characters")
+	@Size(max = 60, message = "City cannot exceed 60 characters")
 	private String city;
 
 	@NotBlank(message = "Image URL is required")
 	@Size(max = 1000, message = "Image URL cannot exceed 1000 characters")
 	private String imageUrl;
 
-	@Size(max = 2000, message = "Description cannot exceed 2000 characters")
+	@Size(max = 500, message = "Description cannot exceed 500 characters")
 	private String description;
 
-	private Boolean available;
+	private String status;
 }

@@ -10,8 +10,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 				@Index(name = "idx_booking_user", columnList = "user_id"),
 				@Index(name = "idx_booking_car", columnList = "car_id"),
 				@Index(name = "idx_booking_status", columnList = "status"),
-				@Index(name = "idx_booking_dates", columnList = "startDate,endDate")
+				@Index(name = "idx_booking_dates", columnList = "startAt,endAt")
 		}
 )
 @Getter
@@ -43,13 +43,13 @@ public class Booking {
 	private Car car;
 
 	@Column(nullable = false)
-	private LocalDate startDate;
+	private LocalDateTime startAt;
 
 	@Column(nullable = false)
-	private LocalDate endDate;
+	private LocalDateTime endAt;
 
 	@Column(nullable = false, precision = 12, scale = 2)
-	private BigDecimal totalPrice;
+	private BigDecimal totalAmount;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 30)
@@ -69,6 +69,6 @@ public class Booking {
 	private LocalDateTime updatedAt;
 
 	public long getTotalDays() {
-		return startDate.until(endDate).getDays();
+		return ChronoUnit.DAYS.between(startAt, endAt);
 	}
 }

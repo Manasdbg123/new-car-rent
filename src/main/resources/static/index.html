@@ -1,227 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 	<meta charset="UTF-8">
-
-	<meta name="viewport"
-		  content="width=device-width, initial-scale=1.0">
-
-	<title>DriveX - Premium Car Rental</title>
-
-	<link rel="stylesheet"
-		  href="/css/style.css">
-
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>DriveX - Premium Vehicle Rental</title>
+	<link rel="stylesheet" href="/css/style.css">
 </head>
-
 <body>
 
-<!-- =========================================
-NAVBAR
-========================================= -->
-
 <nav class="navbar">
-
-	<div class="logo">
-		🚘 DriveX
-	</div>
-
+	<div class="logo">🚘 DriveX</div>
 	<div class="nav-links">
-
-		<a href="#home">Home</a>
-
-		<a href="#cars">Cars</a>
-
-		<a href="#contact">Contact</a>
-
+		<a href="#home" class="nav-item">Home</a>
+		<a href="#cars" class="nav-item">Cars</a>
+		<a href="#bikes" class="nav-item">Bikes</a>
+		<a href="#about" class="nav-item">About Us</a>
+		<a href="#contact" class="nav-item">Contact</a>
 	</div>
-
-	<div class="auth-buttons">
-
-		<button class="btn login-btn">
-			Login
-		</button>
-
-		<button class="btn register-btn">
-			Register
-		</button>
-
-	</div>
-
+	<div class="auth-buttons" id="authButtons"></div>
 </nav>
 
-<!-- =========================================
-HERO
-========================================= -->
+<main id="app-content">
 
-<section class="hero" id="home">
-
-	<div class="hero-content">
-
-		<h1>
-			Premium Cars
-			<br>
-			For Every Journey
-		</h1>
-
-		<p>
-			Luxury rentals made simple and fast.
-		</p>
-
-		<div class="hero-buttons">
-
-			<button class="btn primary-btn">
-				Explore Cars
-			</button>
-
-		</div>
-
-	</div>
-
-</section>
-
-<!-- =========================================
-CARS
-========================================= -->
-
-<section class="cars-section" id="cars">
-
-	<div class="section-title">
-
-		<h2>Popular Cars</h2>
-
-	</div>
-
-	<div class="cars-grid">
-
-		<div class="car-card">
-
-			<div class="car-info">
-
-				<h3>BMW M4</h3>
-
-				<p>Luxury Sports Car</p>
-
-				<button class="btn book-btn">
-					Book Now
-				</button>
-
+	<section id="home-view" class="page-view">
+		<div class="hero">
+			<div class="hero-content">
+				<h1>Premium Cars & Bikes<br>For Every Journey</h1>
+				<p>Luxury rentals made simple, secure, and fast.</p>
+				<div class="hero-buttons">
+					<a href="#cars" class="btn primary-btn" style="text-decoration:none;">Explore Cars</a>
+					<a href="#bikes" class="btn primary-btn" style="text-decoration:none; background: transparent; border: 2px solid white;">Explore Bikes</a>
+				</div>
 			</div>
-
 		</div>
 
-		<div class="car-card">
-
-			<div class="car-info">
-
-				<h3>Audi A6</h3>
-
-				<p>Premium Sedan</p>
-
-				<button class="btn book-btn">
-					Book Now
-				</button>
-
+		<div class="content-section">
+			<h2>How It Works</h2>
+			<div class="grid-3">
+				<div class="step-card">
+					<div class="step-icon">📍</div>
+					<h3>1. Select City & Vehicle</h3>
+					<p>Choose your city and browse our extensive collection of premium cars and superbikes.</p>
+				</div>
+				<div class="step-card">
+					<div class="step-icon">📅</div>
+					<h3>2. Choose Dates</h3>
+					<p>Select your pickup and return dates. Our system ensures real-time availability.</p>
+				</div>
+				<div class="step-card">
+					<div class="step-icon">🔑</div>
+					<h3>3. Drive Away</h3>
+					<p>Complete your secure booking and pick up your keys. It's that simple.</p>
+				</div>
 			</div>
-
 		</div>
 
-	</div>
+		<div class="content-section alt-bg">
+			<h2>Why Choose DriveX?</h2>
+			<div class="grid-3">
+				<div class="feature-card">
+					<h3 style="color:#007bff;">Top Quality Fleet</h3>
+					<p>Every vehicle is meticulously maintained and sanitized before handoff.</p>
+				</div>
+				<div class="feature-card">
+					<h3 style="color:#007bff;">No Hidden Fees</h3>
+					<p>Transparent pricing. What you see is exactly what you pay.</p>
+				</div>
+				<div class="feature-card">
+					<h3 style="color:#007bff;">24/7 Support</h3>
+					<p>Our dedicated roadside assistance and concierge team is always on call.</p>
+				</div>
+			</div>
+		</div>
+	</section>
 
-</section>
+	<section id="cars-view" class="page-view">
+		<div class="pro-header">
+			<h1>Our Premium Car Fleet</h1>
+			<p>Choose from our wide selection of luxury and performance vehicles.</p>
+		</div>
 
-<!-- =========================================
-LOGIN MODAL
-========================================= -->
+		<div class="filter-bar">
+			<label for="cityFilter">📍 Filter by City:</label>
+			<select id="cityFilter" onchange="filterCarsByCity(this.value)">
+				<option value="all">Loading cities...</option>
+			</select>
+		</div>
+
+		<div class="cars-section">
+			<div class="cars-grid" id="carList"></div>
+		</div>
+	</section>
+
+	<section id="bikes-view" class="page-view">
+		<div class="pro-header" style="background: linear-gradient(to right, #2a2a2a, #4a4a4a);">
+			<h1>Superbikes & Cruisers</h1>
+			<p>Experience the thrill of the open road on two wheels.</p>
+		</div>
+		<div class="cars-section">
+			<div class="cars-grid" id="bikeList"></div>
+		</div>
+	</section>
+
+	<section id="dashboard-view" class="page-view">
+		<div class="pro-header">
+			<h1>Client Dashboard</h1>
+			<p>Manage your reservations and rental history.</p>
+		</div>
+		<div class="cars-section">
+			<div class="cars-grid" id="myBookings"></div>
+		</div>
+	</section>
+
+	<section id="about-view" class="page-view">
+		<div class="pro-header">
+			<h1>About DriveX</h1>
+			<p>Redefining the luxury mobility experience since 2024.</p>
+		</div>
+		<div class="about-grid">
+			<div>
+				<h2>Our Mission</h2>
+				<p style="line-height: 1.6; color: #555;">At DriveX, we believe that the journey is just as important as the destination. We provide a seamless, fully digital platform to rent the world's most prestigious vehicles. Whether for business, leisure, or the thrill of the drive, we ensure every mile is extraordinary.</p>
+			</div>
+			<div style="display: flex; gap: 20px;">
+				<div class="step-card" style="text-align:center; width: 100%;">
+					<h3 style="font-size: 2.5rem; color:#007bff;">50+</h3>
+					<p>Premium Vehicles</p>
+				</div>
+				<div class="step-card" style="text-align:center; width: 100%;">
+					<h3 style="font-size: 2.5rem; color:#007bff;">24/7</h3>
+					<p>Concierge Support</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="contact-view" class="page-view">
+		<div class="pro-header">
+			<h1>Contact Us</h1>
+			<p>Our concierge team is ready to assist you.</p>
+		</div>
+		<div class="contact-grid">
+			<div class="contact-info">
+				<h2>Get in Touch</h2>
+				<p>📍 123 Luxury Lane, Bangalore, KA 560001</p>
+				<p>📞 +91 98765 43210</p>
+				<p>✉️ support@drivex.com</p>
+			</div>
+			<form class="contact-form" onsubmit="event.preventDefault(); alert('Message Sent! We will contact you shortly.');">
+				<input type="text" placeholder="Your Name" required>
+				<input type="email" placeholder="Your Email" required>
+				<textarea rows="5" placeholder="How can we help you?" required></textarea>
+				<button type="submit" class="btn primary-btn">Send Message</button>
+			</form>
+		</div>
+	</section>
+
+</main>
 
 <div class="modal" id="loginModal">
-
 	<div class="modal-content">
-
-        <span class="close-btn"
-			  id="closeLogin">
-            &times;
-        </span>
-
+		<span class="close-btn" id="closeLogin">&times;</span>
 		<h2>Login</h2>
-
 		<form id="loginForm">
-
-			<input type="email"
-				   id="loginEmail"
-				   placeholder="Email"
-				   required>
-
-			<input type="password"
-				   id="loginPassword"
-				   placeholder="Password"
-				   required>
-
-			<button type="submit"
-					class="btn primary-btn">
-				Login
-			</button>
-
+			<input type="email" id="loginEmail" placeholder="Email" required>
+			<input type="password" id="loginPassword" placeholder="Password" required>
+			<button type="submit" class="btn primary-btn">Login</button>
 		</form>
-
 	</div>
-
 </div>
-
-<!-- =========================================
-REGISTER MODAL
-========================================= -->
-
 <div class="modal" id="registerModal">
-
 	<div class="modal-content">
-
-        <span class="close-btn"
-			  id="closeRegister">
-            &times;
-        </span>
-
+		<span class="close-btn" id="closeRegister">&times;</span>
 		<h2>Register</h2>
-
 		<form id="registerForm">
-
-			<input type="text"
-				   id="registerName"
-				   placeholder="Full Name"
-				   required>
-
-			<input type="email"
-				   id="registerEmail"
-				   placeholder="Email"
-				   required>
-
-			<input type="password"
-				   id="registerPassword"
-				   placeholder="Password"
-				   required>
-
-			<button type="submit"
-					class="btn primary-btn">
-				Register
-			</button>
-
+			<input type="text" id="registerName" placeholder="Full Name" required>
+			<input type="email" id="registerEmail" placeholder="Email" required>
+			<input type="text" id="registerPhone" placeholder="Phone" required>
+			<input type="password" id="registerPassword" placeholder="Password" required>
+			<button type="submit" class="btn primary-btn">Register</button>
 		</form>
-
 	</div>
-
+</div>
+<div class="modal" id="bookingModal">
+	<div class="modal-content">
+		<span class="close-btn" onclick="closeBookingModal()">&times;</span>
+		<h2 id="bookingCarName">Book Car</h2>
+		<input type="hidden" id="bookingCarId">
+		<label style="display:block; text-align:left; margin-top:10px;">Pickup Time:</label>
+		<input type="datetime-local" id="startDate" required>
+		<label style="display:block; text-align:left; margin-top:10px;">Return Time:</label>
+		<input type="datetime-local" id="endDate" required>
+		<button class="btn primary-btn" onclick="confirmBooking()">Confirm Booking</button>
+	</div>
 </div>
 
-<footer class="footer" id="contact">
-
-	<p>
-		© 2026 DriveX Car Rental
-	</p>
-
+<footer class="footer">
+	<p>© 2026 DriveX Premium Vehicle Rental</p>
 </footer>
 
 <script src="/js/app.js"></script>
-
 </body>
-
 </html>

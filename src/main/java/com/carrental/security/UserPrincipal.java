@@ -1,67 +1,29 @@
 package com.carrental.security;
 
 import com.carrental.entity.AppUser;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.Getter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
 
-import java.util.Collection;
 import java.util.List;
 
-@RequiredArgsConstructor
-public class UserPrincipal implements UserDetails {
+@Getter
+public class UserPrincipal extends User {
 
-	private final AppUser user;
+	private final Long userId;
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
+	public UserPrincipal(AppUser user) {
 
-		return List.of(
-				new SimpleGrantedAuthority(
-						"ROLE_" + user.getRole().name()
+		super(
+				user.getEmail(),
+				user.getPassword(),
+				List.of(
+						new SimpleGrantedAuthority(
+								"ROLE_" + user.getRole().name()
+						)
 				)
 		);
-	}
 
-	@Override
-	public String getPassword() {
-
-		return user.getPassword();
-	}
-
-	@Override
-	public String getUsername() {
-
-		return user.getEmail();
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-
-		return user.isAccountNonLocked();
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-
-		return user.isEnabled();
-	}
-
-	public Long getUserId() {
-
-		return user.getId();
+		this.userId = user.getId();
 	}
 }

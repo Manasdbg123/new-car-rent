@@ -26,15 +26,15 @@ public class AdminBootstrapConfig implements CommandLineRunner {
 			return;
 		}
 
-		AppUser admin = AppUser.builder()
-				.fullName("System Admin")
-				.email(adminEmail)
-				.phone("9999999999")
-				.password(passwordEncoder.encode("Admin@123"))
-				.role(Role.ADMIN)
-				.enabled(true)
-				.accountNonLocked(true)
-				.build();
+		// Bypassing Lombok Builder and using explicit setters
+		AppUser admin = new AppUser();
+		admin.setFullName("System Admin");
+		admin.setEmail(adminEmail);
+		admin.setPhone("9999999999");
+		admin.setPassword(passwordEncoder.encode("Admin@123"));
+		admin.setRole(Role.ADMIN);
+		admin.setEnabled(true);
+		admin.setAccountNonLocked(true);
 
 		userRepository.save(admin);
 

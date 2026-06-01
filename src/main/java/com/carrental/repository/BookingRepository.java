@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.LockModeType;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
 	List<Booking> findByUserIdOrderByCreatedAtDesc(Long userId);
 
-	List<Booking> findByCarIdOrderByStartDateDesc(Long carId);
+	List<Booking> findByCarIdOrderByStartAtDesc(Long carId);
 
 	List<Booking> findByStatus(BookingStatus status);
 
@@ -32,14 +32,14 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             WHERE b.car.id = :carId
             AND b.status IN ('PENDING', 'CONFIRMED')
             AND (
-                    :startDate <= b.endDate
-                    AND :endDate >= b.startDate
+                    :startAt <= b.endAt
+                    AND :endAt >= b.startAt
                 )
             """)
 	List<Booking> findConflictingBookings(
 			@Param("carId") Long carId,
-			@Param("startDate") LocalDate startDate,
-			@Param("endDate") LocalDate endDate
+			@Param("startAt") LocalDateTime startAt,
+			@Param("endAt") LocalDateTime endAt
 	);
 
 	@Query("""
@@ -48,13 +48,13 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             WHERE b.car.id = :carId
             AND b.status IN ('PENDING', 'CONFIRMED')
             AND (
-                    :startDate <= b.endDate
-                    AND :endDate >= b.startDate
+                    :startAt <= b.endAt
+                    AND :endAt >= b.startAt
                 )
             """)
 	boolean existsActiveBookingConflict(
 			@Param("carId") Long carId,
-			@Param("startDate") LocalDate startDate,
-			@Param("endDate") LocalDate endDate
+			@Param("startAt") LocalDateTime startAt,
+			@Param("endAt") LocalDateTime endAt
 	);
 }

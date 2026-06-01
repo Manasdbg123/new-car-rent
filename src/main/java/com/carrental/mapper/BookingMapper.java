@@ -18,15 +18,12 @@ public class BookingMapper {
 				.userId(booking.getUser().getId())
 				.userName(booking.getUser().getFullName())
 				.carId(booking.getCar().getId())
-				.carName(
-						booking.getCar().getBrand() +
-								" " +
-								booking.getCar().getModel()
-				)
+				.carBrand(booking.getCar().getBrand())
+				.carModel(booking.getCar().getModel())
 				.carImage(booking.getCar().getImageUrl())
-				.startDate(booking.getStartDate())
-				.endDate(booking.getEndDate())
-				.totalPrice(booking.getTotalPrice())
+				.startAt(booking.getStartAt())
+				.endAt(booking.getEndAt())
+				.totalAmount(booking.getTotalAmount())
 				.status(booking.getStatus().name())
 				.cancellationReason(booking.getCancellationReason())
 				.cancelledAt(booking.getCancelledAt())

@@ -1,105 +1,81 @@
 package com.carrental.config;
 
 import com.carrental.security.JwtAuthenticationFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableMethodSecurity
-@RequiredArgsConstructor
+@EnableWebSecurity
 public class SecurityConfig {
 
-	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	private final JwtAuthenticationFilter jwtAuthFilter;
+	private final UserDetailsService userDetailsService;
+
+	// Explicit constructor to eliminate environment compilation gaps
+	public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter, UserDetailsService userDetailsService) {
+		this.jwtAuthFilter = jwtAuthFilter;
+		this.userDetailsService = userDetailsService;
+	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-
 		return new BCryptPasswordEncoder();
 	}
 
+	// FIX: Explicitly defining the missing AuthenticationProvider bean
 	@Bean
-	public AuthenticationManager authenticationManager(
-			AuthenticationConfiguration configuration
-	) throws Exception {
+	public AuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		authProvider.setUserDetailsService(userDetailsService);
+		authProvider.setPasswordEncoder(passwordEncoder());
+		return authProvider;
+	}
 
-		return configuration.getAuthenticationManager();
+	// FIX: Defining the AuthenticationManager bean needed by your AuthService
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
 	}
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(
-			HttpSecurity http
-	) throws Exception {
-
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-
-				.csrf(csrf -> csrf.disable())
-
-				.sessionManagement(session ->
-						session.sessionCreationPolicy(
-								SessionCreationPolicy.STATELESS
-						)
-				)
-
+				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(auth -> auth
-
-						/*
-                        =====================================
-                        PUBLIC FRONTEND
-                        =====================================
-                        */
-
+						// Whitelist public endpoints and UI assets
 						.requestMatchers(
+								"/api/auth/**",
+								"/api/cars/available",
 								"/",
 								"/index.html",
-
 								"/css/**",
 								"/js/**",
 								"/images/**",
-
-								"/favicon.ico",
-
-								"/error",
-
-								"/api/auth/**",
-
-								"/swagger-ui/**",
-								"/v3/api-docs/**"
-
+								"/error"
 						).permitAll()
-
-						/*
-                        =====================================
-                        ADMIN
-                        =====================================
-                        */
-
-						.requestMatchers(
-								"/api/admin/**"
-						).hasRole("ADMIN")
-
-						/*
-                        =====================================
-                        ALL OTHERS
-                        =====================================
-                        */
-
-						.anyRequest().permitAll()
+						// Protect admin routes
+						.requestMatchers("/api/admin/**").hasRole("ADMIN")
+						// Protect secure transactional workflows
+						.anyRequest().authenticated()
 				)
-
-				.addFilterBefore(
-						jwtAuthenticationFilter,
-						UsernamePasswordAuthenticationFilter.class
-				);
+				.sessionManagement(session -> session
+						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				)
+				.authenticationProvider(authenticationProvider())
+				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}

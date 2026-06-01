@@ -11,38 +11,20 @@ public class UserMapper {
 	}
 
 	public static AppUser toEntity(RegisterRequest request) {
-
 		AppUser user = new AppUser();
-
-		user.setFullName(
-				request.getFullName()
-		);
-
-		user.setEmail(
-				request.getEmail()
-		);
-
-		user.setPhone(
-				request.getPhone()
-		);
-
+		user.setFullName(request.getFullName());
+		user.setEmail(request.getEmail());
+		user.setPhone(request.getPhone());
 		user.setRole(Role.USER);
-
 		return user;
 	}
 
 	public static UserResponse toResponse(AppUser user) {
-
 		return new UserResponse(
-
 				user.getId(),
-
 				user.getFullName(),
-
 				user.getEmail(),
-
 				user.getPhone(),
-
 				user.getRole().name()
 		);
 	}

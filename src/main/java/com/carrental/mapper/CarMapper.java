@@ -3,6 +3,7 @@ package com.carrental.mapper;
 import com.carrental.dto.request.CarRequest;
 import com.carrental.dto.response.CarResponse;
 import com.carrental.entity.Car;
+import com.carrental.entity.CarStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,17 +19,16 @@ public class CarMapper {
 				.id(car.getId())
 				.brand(car.getBrand())
 				.model(car.getModel())
-				.type(car.getType())
-				.year(car.getYear())
-				.registrationNumber(car.getRegistrationNumber())
-				.pricePerDay(car.getPricePerDay())
-				.seatingCapacity(car.getSeatingCapacity())
+				.manufactureYear(car.getManufactureYear())
+				.licensePlate(car.getLicensePlate())
+				.dailyRate(car.getDailyRate())
+				.seats(car.getSeats())
 				.fuelType(car.getFuelType())
 				.transmission(car.getTransmission())
 				.city(car.getCity())
 				.imageUrl(car.getImageUrl())
 				.description(car.getDescription())
-				.available(car.getAvailable())
+				.status(car.getStatus() != null ? car.getStatus().name() : null)
 				.createdAt(car.getCreatedAt())
 				.build();
 	}
@@ -39,44 +39,44 @@ public class CarMapper {
 			return null;
 		}
 
-		return Car.builder()
-				.brand(request.getBrand())
-				.model(request.getModel())
-				.type(request.getType())
-				.year(request.getYear())
-				.registrationNumber(request.getRegistrationNumber())
-				.pricePerDay(request.getPricePerDay())
-				.seatingCapacity(request.getSeatingCapacity())
-				.fuelType(request.getFuelType())
-				.transmission(request.getTransmission())
-				.city(request.getCity())
-				.imageUrl(request.getImageUrl())
-				.description(request.getDescription())
-				.available(
-						request.getAvailable() != null
-								? request.getAvailable()
-								: true
-				)
-				.build();
-	}
-
-	public void updateEntity(Car car, CarRequest request) {
-
+		Car car = new Car();
 		car.setBrand(request.getBrand());
 		car.setModel(request.getModel());
-		car.setType(request.getType());
-		car.setYear(request.getYear());
-		car.setRegistrationNumber(request.getRegistrationNumber());
-		car.setPricePerDay(request.getPricePerDay());
-		car.setSeatingCapacity(request.getSeatingCapacity());
+		car.setManufactureYear(request.getManufactureYear());
+		car.setLicensePlate(request.getLicensePlate());
+		car.setDailyRate(request.getDailyRate());
+		car.setSeats(request.getSeats());
 		car.setFuelType(request.getFuelType());
 		car.setTransmission(request.getTransmission());
 		car.setCity(request.getCity());
 		car.setImageUrl(request.getImageUrl());
 		car.setDescription(request.getDescription());
 
-		if (request.getAvailable() != null) {
-			car.setAvailable(request.getAvailable());
+		if (request.getStatus() != null) {
+			car.setStatus(CarStatus.valueOf(request.getStatus().toUpperCase()));
+		} else {
+			car.setStatus(CarStatus.AVAILABLE);
+		}
+
+		return car;
+	}
+
+	public void updateEntity(Car car, CarRequest request) {
+
+		car.setBrand(request.getBrand());
+		car.setModel(request.getModel());
+		car.setManufactureYear(request.getManufactureYear());
+		car.setLicensePlate(request.getLicensePlate());
+		car.setDailyRate(request.getDailyRate());
+		car.setSeats(request.getSeats());
+		car.setFuelType(request.getFuelType());
+		car.setTransmission(request.getTransmission());
+		car.setCity(request.getCity());
+		car.setImageUrl(request.getImageUrl());
+		car.setDescription(request.getDescription());
+
+		if (request.getStatus() != null) {
+			car.setStatus(CarStatus.valueOf(request.getStatus().toUpperCase()));
 		}
 	}
 }

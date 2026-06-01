@@ -3,6 +3,7 @@ package com.carrental.service;
 import com.carrental.dto.request.CarRequest;
 import com.carrental.dto.response.CarResponse;
 import com.carrental.entity.Car;
+import com.carrental.entity.CarStatus;
 import com.carrental.exception.BadRequestException;
 import com.carrental.exception.ResourceNotFoundException;
 import com.carrental.mapper.CarMapper;
@@ -24,7 +25,6 @@ public class CarService {
 	private final CarMapper carMapper;
 
 	public List<CarResponse> getAllCars() {
-
 		return carRepository.findAll()
 				.stream()
 				.map(carMapper::toResponse)
@@ -36,19 +36,17 @@ public class CarService {
 			int size,
 			String sortBy
 	) {
-
 		Pageable pageable = PageRequest.of(
 				page,
 				size,
 				Sort.by(sortBy).descending()
 		);
 
-		return carRepository.findByAvailableTrue(pageable)
+		return carRepository.findByStatus(CarStatus.AVAILABLE, pageable)
 				.map(carMapper::toResponse);
 	}
 
 	public CarResponse getCarById(Long id) {
-
 		Car car = carRepository.findById(id)
 				.orElseThrow(() ->
 						new ResourceNotFoundException("Car not found")
@@ -60,16 +58,11 @@ public class CarService {
 	@Transactional
 	public CarResponse createCar(CarRequest request) {
 
-		if (carRepository.existsByRegistrationNumber(
-				request.getRegistrationNumber()
-		)) {
-			throw new BadRequestException(
-					"Registration number already exists"
-			);
+		if (carRepository.existsByLicensePlate(request.getLicensePlate())) {
+			throw new BadRequestException("License plate already exists");
 		}
 
 		Car car = carMapper.toEntity(request);
-
 		Car savedCar = carRepository.save(car);
 
 		log.info("Car created successfully: {}", savedCar.getId());
@@ -86,7 +79,6 @@ public class CarService {
 				);
 
 		carMapper.updateEntity(car, request);
-
 		Car updatedCar = carRepository.save(car);
 
 		log.info("Car updated successfully: {}", updatedCar.getId());
@@ -96,14 +88,12 @@ public class CarService {
 
 	@Transactional
 	public void deleteCar(Long id) {
-
 		Car car = carRepository.findById(id)
 				.orElseThrow(() ->
 						new ResourceNotFoundException("Car not found")
 				);
 
 		carRepository.delete(car);
-
 		log.info("Car deleted successfully: {}", id);
 	}
 }

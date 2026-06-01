@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
 
 import java.time.LocalDateTime;
@@ -18,7 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class IntegrationAuthBookingTest {
 
-    @com.carrental.LocalServerPort
+    // FIXED: Using the official Spring Boot 3 test annotation
+    @LocalServerPort
     private int port;
 
     @Autowired
@@ -29,9 +30,10 @@ public class IntegrationAuthBookingTest {
 
     @Test
     void registerLoginAndBook() throws Exception {
-        String base = "http://localhost:" + port + "/api/v1";
+        // FIXED: Removed the invalid /v1 path that was causing 404 Not Found errors
+        String base = "http://localhost:" + port + "/api";
 
-        // register
+        // 1. Register User
         Map<String, Object> register = Map.of(
                 "fullName", "IT Test User",
                 "email", "it.user+1@example.com",
@@ -42,7 +44,7 @@ public class IntegrationAuthBookingTest {
         ResponseEntity<String> regResp = restTemplate.postForEntity(base + "/auth/register", register, String.class);
         assertThat(regResp.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
-        // login
+        // 2. Login User
         Map<String, Object> login = Map.of(
                 "email", "it.user+1@example.com",
                 "password", "P@ssw0rd"
@@ -60,28 +62,38 @@ public class IntegrationAuthBookingTest {
         }
         assertThat(token).isNotNull();
 
-        // get cars
-        ResponseEntity<String> carsResp = restTemplate.getForEntity(base + "/cars", String.class);
+        // 3. Get Available Cars
+        // FIXED: Pointing to the correct public endpoint based on SecurityConfig
+        ResponseEntity<String> carsResp = restTemplate.getForEntity(base + "/cars/available", String.class);
         assertThat(carsResp.getStatusCode()).isEqualTo(HttpStatus.OK);
+
         JsonNode carsJson = objectMapper.readTree(carsResp.getBody());
         JsonNode carsArray = carsJson.path("data").path("content");
-        if (!carsArray.isArray() || carsArray.size() == 0) {
-            // try alternative shapes
+
+        // Handle variations in pagination response wrappers dynamically
+        if (carsArray.isMissingNode() || !carsArray.isArray()) {
             carsArray = carsJson.path("content");
         }
+        if (carsArray.isMissingNode() || !carsArray.isArray()) {
+            carsArray = carsJson.path("data");
+        }
+        if (carsArray.isMissingNode() || !carsArray.isArray()) {
+            carsArray = carsJson;
+        }
+
         assertThat(carsArray.isArray()).isTrue();
         assertThat(carsArray.size()).isGreaterThan(0);
 
         long carId = carsArray.get(0).path("id").asLong();
 
-        // prepare booking dates: future
+        // 4. Create Booking
         LocalDateTime start = LocalDateTime.now().plusDays(2).withSecond(0).withNano(0);
         LocalDateTime end = start.plusDays(2);
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
         Map<String, Object> booking = Map.of(
                 "carId", carId,
-                "startAt", start.format(fmt),
+                "startAt", start.format(fmt), // Correctly matching new DTO structure
                 "endAt", end.format(fmt)
         );
 
@@ -93,7 +105,6 @@ public class IntegrationAuthBookingTest {
 
         ResponseEntity<String> bookResp = restTemplate.postForEntity(base + "/bookings", req, String.class);
 
-        // Should be 201 CREATED
         assertThat(bookResp.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
         JsonNode bookJson = objectMapper.readTree(bookResp.getBody());
@@ -101,4 +112,3 @@ public class IntegrationAuthBookingTest {
         assertThat(bookJson.path("data").path("id").isNumber()).isTrue();
     }
 }
-

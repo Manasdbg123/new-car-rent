@@ -17,32 +17,17 @@ import java.time.LocalDateTime;
 public class CarResponse {
 
 	private Long id;
-
 	private String brand;
-
 	private String model;
-
-	private String type;
-
-	private Integer year;
-
-	private String registrationNumber;
-
-	private BigDecimal pricePerDay;
-
-	private Integer seatingCapacity;
-
+	private Integer manufactureYear;
+	private String licensePlate;
+	private BigDecimal dailyRate;
+	private Integer seats;
 	private String fuelType;
-
 	private String transmission;
-
 	private String city;
-
 	private String imageUrl;
-
 	private String description;
-
-	private Boolean available;
-
+	private String status;
 	private LocalDateTime createdAt;
 }

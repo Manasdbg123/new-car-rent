@@ -1,12 +1,19 @@
 package com.carrental.dto.response;
 
-public record AuthResponse(
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-		String accessToken,
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class AuthResponse {
 
-		String refreshToken,
+	private String accessToken;
 
-		UserResponse user
+	private String tokenType;
 
-) {
+	private UserResponse user;
 }

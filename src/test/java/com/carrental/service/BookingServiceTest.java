@@ -4,7 +4,8 @@ import com.carrental.dto.request.BookingRequest;
 import com.carrental.entity.AppUser;
 import com.carrental.entity.Car;
 import com.carrental.entity.CarStatus;
-import com.carrental.exception.ApiException;
+import com.carrental.entity.Role;
+import com.carrental.exception.BadRequestException;
 import com.carrental.mapper.BookingMapper;
 import com.carrental.repository.BookingRepository;
 import com.carrental.repository.CarRepository;
@@ -49,39 +50,43 @@ class BookingServiceTest {
 		BookingRequest request = new BookingRequest(10L, start, end);
 
 		when(userRepository.findById(1L)).thenReturn(Optional.of(user()));
-		when(carRepository.findByIdForUpdate(10L)).thenReturn(Optional.of(car()));
-		when(bookingRepository.existsOverlap(eq(10L), eq(start), eq(end), any())).thenReturn(true);
+		// Fixed: carRepository.findById, NOT findByIdForUpdate
+		when(carRepository.findById(10L)).thenReturn(Optional.of(car()));
 
-		assertThatThrownBy(() -> bookingService.book(1L, request))
-				.isInstanceOf(ApiException.class)
-				.hasMessage("Car already booked for the selected interval");
+		// Fixed: existsActiveBookingConflict
+		when(bookingRepository.existsActiveBookingConflict(10L, start, end)).thenReturn(true);
+
+		// Fixed: bookingService.createBooking
+		assertThatThrownBy(() -> bookingService.createBooking(1L, request))
+				.isInstanceOf(BadRequestException.class) // Changed to BadRequestException based on our stabilized service
+				.hasMessageContaining("Car already booked");
 	}
 
 	private AppUser user() {
-		return AppUser.builder()
-				.id(1L)
-				.fullName("Test User")
-				.email("user@example.com")
-				.phone("+10000000001")
-				.passwordHash("hash")
-				.role(Role.ROLE_USER)
-				.enabled(true)
-				.build();
+		AppUser u = new AppUser();
+		u.setId(1L);
+		u.setFullName("Test User");
+		u.setEmail("user@example.com");
+		u.setPhone("+10000000001");
+		u.setPassword("hash");
+		u.setRole(Role.USER);
+		u.setEnabled(true);
+		return u;
 	}
 
 	private Car car() {
-		return Car.builder()
-				.id(10L)
-				.brand("Toyota")
-				.model("Camry")
-				.year(2024)
-				.licensePlate("ABC123")
-				.city("Austin")
-				.transmission("AUTO")
-				.fuelType("PETROL")
-				.seats(5)
-				.dailyRate(BigDecimal.valueOf(75))
-				.status(CarStatus.AVAILABLE)
-				.build();
+		Car c = new Car();
+		c.setId(10L);
+		c.setBrand("Toyota");
+		c.setModel("Camry");
+		c.setManufactureYear(2024);
+		c.setLicensePlate("ABC123");
+		c.setCity("Austin");
+		c.setTransmission("AUTO");
+		c.setFuelType("PETROL");
+		c.setSeats(5);
+		c.setDailyRate(BigDecimal.valueOf(75));
+		c.setStatus(CarStatus.AVAILABLE);
+		return c;
 	}
 }

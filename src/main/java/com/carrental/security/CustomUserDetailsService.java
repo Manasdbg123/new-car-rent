@@ -11,8 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CustomUserDetailsService
-		implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
 	private final UserRepository userRepository;
 
@@ -29,19 +28,8 @@ public class CustomUserDetailsService
 				);
 
 		return new User(
-
 				user.getEmail(),
-
 				user.getPassword(),
-
-				user.isEnabled(),
-
-				true,
-
-				true,
-
-				user.isAccountNonLocked(),
-
 				List.of(
 						new SimpleGrantedAuthority(
 								"ROLE_" + user.getRole().name()

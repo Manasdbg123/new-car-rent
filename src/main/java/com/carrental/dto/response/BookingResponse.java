@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -25,15 +24,17 @@ public class BookingResponse {
 
 	private Long carId;
 
-	private String carName;
+	private String carBrand;
+
+	private String carModel;
 
 	private String carImage;
 
-	private LocalDate startDate;
+	private LocalDateTime startAt;
 
-	private LocalDate endDate;
+	private LocalDateTime endAt;
 
-	private BigDecimal totalPrice;
+	private BigDecimal totalAmount;
 
 	private String status;
 
