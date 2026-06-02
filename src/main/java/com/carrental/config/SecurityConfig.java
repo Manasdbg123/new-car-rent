@@ -1,8 +1,10 @@
 package com.carrental.config;
 
 import com.carrental.security.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -16,6 +18,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +31,6 @@ public class SecurityConfig {
 	private final JwtAuthenticationFilter jwtAuthFilter;
 	private final UserDetailsService userDetailsService;
 
-	// Explicit constructor to eliminate environment compilation gaps
 	public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter, UserDetailsService userDetailsService) {
 		this.jwtAuthFilter = jwtAuthFilter;
 		this.userDetailsService = userDetailsService;
@@ -35,7 +41,6 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	// FIX: Explicitly defining the missing AuthenticationProvider bean
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -44,18 +49,40 @@ public class SecurityConfig {
 		return authProvider;
 	}
 
-	// FIX: Defining the AuthenticationManager bean needed by your AuthService
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 		return config.getAuthenticationManager();
 	}
 
 	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOriginPatterns(List.of("*"));
+		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+		configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "Accept"));
+
+		// FIX 1: Disabled credentials. We use stateless Bearer tokens, not cookies.
+		// True + wildcard origins causes strict browsers to throw 403 blocks.
+		configuration.setAllowCredentials(false);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
+
+	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.csrf(AbstractHttpConfigurer::disable)
+
+				// FIX 2: Explicitly tell Spring to return 401 (Unauthorized) instead of 403 (Forbidden) for bad tokens
+				.exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, authException) -> {
+					response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or Missing Token");
+				}))
+
 				.authorizeHttpRequests(auth -> auth
-						// Whitelist public endpoints and UI assets
+						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 						.requestMatchers(
 								"/api/auth/**",
 								"/api/cars/available",
@@ -64,11 +91,10 @@ public class SecurityConfig {
 								"/css/**",
 								"/js/**",
 								"/images/**",
+								"/favicon.ico",
 								"/error"
 						).permitAll()
-						// Protect admin routes
 						.requestMatchers("/api/admin/**").hasRole("ADMIN")
-						// Protect secure transactional workflows
 						.anyRequest().authenticated()
 				)
 				.sessionManagement(session -> session

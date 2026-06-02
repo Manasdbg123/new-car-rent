@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,8 +36,16 @@ public class CarController {
 		);
 	}
 
+	// UPDATED: Endpoint now accepts optional search parameters
 	@GetMapping("/available")
 	public ResponseEntity<ApiResponse<Page<CarResponse>>> getAvailableCars(
+			@RequestParam(required = false) String city,
+			@RequestParam(required = false) String brand,
+			@RequestParam(required = false) String vehicleType,
+			@RequestParam(required = false) String transmission,
+			@RequestParam(required = false) String fuelType,
+			@RequestParam(required = false) BigDecimal minPrice,
+			@RequestParam(required = false) BigDecimal maxPrice,
 			@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size,
 			@RequestParam(defaultValue = "createdAt") String sortBy
@@ -46,7 +55,7 @@ public class CarController {
 				ApiResponse.<Page<CarResponse>>builder()
 						.success(true)
 						.message("Available cars fetched successfully")
-						.data(carService.getAvailableCars(page, size, sortBy))
+						.data(carService.getAvailableCars(city, brand, vehicleType, transmission, fuelType, minPrice, maxPrice, page, size, sortBy))
 						.timestamp(LocalDateTime.now())
 						.build()
 		);

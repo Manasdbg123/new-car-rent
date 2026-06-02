@@ -14,6 +14,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -31,10 +32,12 @@ public class CarService {
 				.toList();
 	}
 
+	// UPDATED: Now supports advanced filtering
 	public Page<CarResponse> getAvailableCars(
-			int page,
-			int size,
-			String sortBy
+			String city, String brand, String vehicleType,
+			String transmission, String fuelType,
+			BigDecimal minPrice, BigDecimal maxPrice,
+			int page, int size, String sortBy
 	) {
 		Pageable pageable = PageRequest.of(
 				page,
@@ -42,7 +45,9 @@ public class CarService {
 				Sort.by(sortBy).descending()
 		);
 
-		return carRepository.findByStatus(CarStatus.AVAILABLE, pageable)
+		return carRepository.searchAvailableCars(
+						CarStatus.AVAILABLE, city, brand, vehicleType,
+						transmission, fuelType, minPrice, maxPrice, pageable)
 				.map(carMapper::toResponse);
 	}
 

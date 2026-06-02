@@ -124,11 +124,10 @@
 		<div class="hero" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
 			<div class="hero-content">
 				<h1 style="font-size: 3.5rem; margin-bottom: 10px;">Car & Bike Hire – Search, Compare & Save</h1>
-				<p style="font-size: 1.2rem; font-weight: 300;">Free cancellations on most bookings • 72+ Vehicles • 6 Major Cities</p>
+				<p style="font-size: 1.2rem; font-weight: 300;">Free cancellations on most bookings • Premium Vehicles • Best Rates</p>
 			</div>
 		</div>
 
-		<!-- RENTALCARS STYLE SEARCH WIDGET -->
 		<form class="search-widget-container" onsubmit="event.preventDefault(); window.executeHeroSearch();">
 			<div class="search-group">
 				<label>Pick-up Location</label>
@@ -155,7 +154,6 @@
 			<button type="submit" class="search-btn-large" id="btnSearchHero">Search</button>
 		</form>
 
-		<!-- VALUE ADD STRIP -->
 		<div class="info-strip">
 			<div class="info-box">
 				<h4>Flexible Rentals</h4>
@@ -213,9 +211,7 @@
 			</div>
 		</div>
 
-		<!-- TWO-COLUMN FAQ AND ADDITIONAL INFO (RENTALCARS.COM STYLE) -->
 		<div class="two-col-accordion">
-			<!-- Left Column: FAQ -->
 			<div class="accordion-column">
 				<h2>Frequently Asked Questions</h2>
 
@@ -250,7 +246,6 @@
 				</div>
 			</div>
 
-			<!-- Right Column: Additional Information -->
 			<div class="accordion-column">
 				<h2>Additional Information</h2>
 
@@ -298,7 +293,6 @@
 			</div>
 		</div>
 
-		<!-- NEW COMPREHENSIVE ADDITIONAL INFORMATION GRID SECTION -->
 		<div class="additional-info-section">
 			<h2 class="section-title">Important Rental Information</h2>
 			<div class="info-grid">
@@ -333,7 +327,6 @@
 			<h3>BMW</h3><h3>Mercedes</h3><h3>Audi</h3><h3>Royal Enfield</h3><h3>Porsche</h3><h3>KTM</h3>
 		</div>
 
-		<!-- REVIEWS SECTION -->
 		<div class="content-section alt-bg" style="background:#f8f9fa; padding: 40px 0 60px 0; border-top: 1px solid #eee; margin-top: 40px;">
 			<h2 class="section-title">What Our Customers Say</h2>
 			<div class="reviews-grid">
@@ -361,14 +354,28 @@
 			<h1>Compare Car Rentals</h1>
 			<p>Find the best daily rates across 6 major cities.</p>
 		</div>
-		<div class="filter-bar" style="max-width:1400px; margin:20px auto; display:flex; gap:15px; padding: 0 5%;">
-			<select id="carCityFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer;">
+		<div class="filter-bar" style="max-width:1400px; margin:20px auto; display:flex; flex-wrap:wrap; gap:15px; padding: 0 5%;">
+			<select id="carCityFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer; flex:1; min-width:150px;">
 				<option value="all">All Locations</option>
+				<option value="Bangalore">Bangalore</option>
+				<option value="Chennai">Chennai</option>
+				<option value="Delhi">Delhi</option>
+				<option value="Hyderabad">Hyderabad</option>
+				<option value="Mumbai">Mumbai</option>
+				<option value="Pune">Pune</option>
 			</select>
-			<select id="carSortFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer;">
-				<option value="asc">Price: Low to High</option>
-				<option value="desc">Price: High to Low</option>
+			<select id="carBrandFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer; flex:1; min-width:150px;">
+				<option value="all">All Brands</option>
+				<option value="Audi">Audi</option>
+				<option value="BMW">BMW</option>
+				<option value="Honda">Honda</option>
+				<option value="Hyundai">Hyundai</option>
+				<option value="Mahindra">Mahindra</option>
+				<option value="Mercedes">Mercedes</option>
+				<option value="Tata">Tata</option>
+				<option value="Toyota">Toyota</option>
 			</select>
+			<input type="number" id="carMaxPrice" placeholder="Max Price ($/day)" oninput="debounceFilter()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; flex:1; min-width:150px;">
 		</div>
 		<div class="cars-section">
 			<div class="cars-grid" id="carList"></div>
@@ -380,14 +387,29 @@
 			<h1>Superbikes & Commuters</h1>
 			<p>Two wheels move the soul. Book instantly.</p>
 		</div>
-		<div class="filter-bar" style="max-width:1400px; margin:20px auto; display:flex; gap:15px; padding: 0 5%;">
-			<select id="bikeCityFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer;">
+		<div class="filter-bar" style="max-width:1400px; margin:20px auto; display:flex; flex-wrap:wrap; gap:15px; padding: 0 5%;">
+			<select id="bikeCityFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer; flex:1; min-width:150px;">
 				<option value="all">All Locations</option>
+				<option value="Bangalore">Bangalore</option>
+				<option value="Chennai">Chennai</option>
+				<option value="Delhi">Delhi</option>
+				<option value="Goa">Goa</option>
+				<option value="Mumbai">Mumbai</option>
+				<option value="Pune">Pune</option>
 			</select>
-			<select id="bikeSortFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer;">
-				<option value="asc">Price: Low to High</option>
-				<option value="desc">Price: High to Low</option>
+			<select id="bikeBrandFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer; flex:1; min-width:150px;">
+				<option value="all">All Brands</option>
+				<option value="Bajaj">Bajaj</option>
+				<option value="BMW">BMW</option>
+				<option value="Ducati">Ducati</option>
+				<option value="Harley-Davidson">Harley-Davidson</option>
+				<option value="Honda">Honda</option>
+				<option value="KTM">KTM</option>
+				<option value="Royal Enfield">Royal Enfield</option>
+				<option value="TVS">TVS</option>
+				<option value="Yamaha">Yamaha</option>
 			</select>
+			<input type="number" id="bikeMaxPrice" placeholder="Max Price ($/day)" oninput="debounceFilter()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; flex:1; min-width:150px;">
 		</div>
 		<div class="cars-section">
 			<div class="cars-grid" id="bikeList"></div>
@@ -406,7 +428,6 @@
 
 </nav>
 
-<!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
 	<div class="modal-content">
 		<span class="close-btn" id="closeLogin">&times;</span>
@@ -419,7 +440,6 @@
 	</div>
 </div>
 
-<!-- REGISTER MODAL -->
 <div class="modal" id="registerModal">
 	<div class="modal-content">
 		<span class="close-btn" id="closeRegister">&times;</span>
@@ -434,7 +454,6 @@
 	</div>
 </div>
 
-<!-- BOOKING MODAL -->
 <div class="modal" id="bookingModal">
 	<div class="modal-content">
 		<span class="close-btn" onclick="closeBookingModal()">&times;</span>
@@ -448,7 +467,6 @@
 	</div>
 </div>
 
-<!-- COMPREHENSIVE VEHICLE ADDITIONAL SPECIFICATIONS POPUP MODAL -->
 <div class="modal" id="infoModal">
 	<div class="modal-content" style="max-width: 550px;">
 		<span class="close-btn" onclick="closeInfoModal()">&times;</span>

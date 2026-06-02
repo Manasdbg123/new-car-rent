@@ -5,11 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     handleRouting();
 });
 
-let globalVehicles = []; // Contains BOTH Cars and Bikes from DB
-
 function initApp() {
     setupNavbar();
-    fetchInventory(); // Fetch once on load
 }
 
 // Hero Search Widget Logic
@@ -135,70 +132,58 @@ async function secureFetch(url, options = {}) {
 }
 
 // ==========================================
-// UNIFIED INVENTORY LOGIC
+// SERVER-SIDE SEARCH LOGIC (NEW)
 // ==========================================
-async function fetchInventory() {
-    try {
-        const res = await fetch('/api/cars/available?size=200');
-        if (!res.ok) throw new Error("Backend infrastructure validation error");
-        const data = await res.json();
 
-        const vehicles = data.data?.content || data.content || data.data || data;
+// Adding a debounce to prevent spamming the server when typing in maxPrice
+let searchTimeout;
+window.debounceFilter = () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(filterVehicles, 500);
+};
 
-        if (Array.isArray(vehicles)) {
-            globalVehicles = vehicles;
-            populateDropdowns(vehicles);
-            filterVehicles();
-        }
-    } catch (e) {
-        console.error("Failed to execute dynamic asset inventory population fetch", e);
-    }
-}
-
-function populateDropdowns(vehicles) {
-    const defaultCities = ['Bangalore', 'Chennai', 'Delhi', 'Hyderabad', 'Mumbai', 'Pune'];
-    const dbCities = vehicles.map(v => v.city).filter(Boolean);
-    const allCities = [...new Set([...defaultCities, ...dbCities])].sort();
-
-    let options = '<option value="all">All Locations</option>';
-    allCities.forEach(c => { options += `<option value="${c}">${c}</option>`; });
-
-    const carCityFilter = document.getElementById('carCityFilter');
-    const bikeCityFilter = document.getElementById('bikeCityFilter');
-
-    if (carCityFilter) carCityFilter.innerHTML = options;
-    if (bikeCityFilter) bikeCityFilter.innerHTML = options;
-}
-
-window.filterVehicles = () => {
+window.filterVehicles = async () => {
     let hash = window.location.hash || '#home';
     if(hash !== '#cars' && hash !== '#bikes') return;
 
     let isCarPage = hash === '#cars';
     let type = isCarPage ? 'CAR' : 'BIKE';
+
+    // Grab the values from the specific UI section
     let citySelect = document.getElementById(isCarPage ? 'carCityFilter' : 'bikeCityFilter');
-    let sortSelect = document.getElementById(isCarPage ? 'carSortFilter' : 'bikeSortFilter');
+    let brandSelect = document.getElementById(isCarPage ? 'carBrandFilter' : 'bikeBrandFilter');
+    let priceInput = document.getElementById(isCarPage ? 'carMaxPrice' : 'bikeMaxPrice');
 
     let city = citySelect ? citySelect.value : 'all';
-    let sort = sortSelect ? sortSelect.value : 'asc';
+    let brand = brandSelect ? brandSelect.value : 'all';
+    let maxPrice = priceInput ? priceInput.value : '';
 
-    let filtered = globalVehicles.filter(v => {
-        let actualType = v.vehicleType;
-        if (!actualType) {
-            actualType = (v.seats <= 2) ? 'BIKE' : 'CAR';
-        }
-        return actualType === type;
-    });
+    // Dynamically build the Server Query String
+    const params = new URLSearchParams();
+    params.append('vehicleType', type);
+    params.append('size', '50'); // Maximum elements to fetch per page
 
-    if (city !== 'all') {
-        filtered = filtered.filter(v => v.city === city);
+    if (city && city !== 'all') params.append('city', city);
+    if (brand && brand !== 'all') params.append('brand', brand);
+    if (maxPrice) params.append('maxPrice', maxPrice);
+
+    const gridId = isCarPage ? 'carList' : 'bikeList';
+    const grid = document.getElementById(gridId);
+
+    if (grid) grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px;"><h3 style="color:#0056b3;">Searching database...</h3></div>';
+
+    try {
+        const res = await fetch(`/api/cars/available?${params.toString()}`);
+        if (!res.ok) throw new Error("Search API failed");
+
+        const data = await res.json();
+        const vehicles = data.data?.content || data.content || data.data || data;
+
+        renderVehicles(vehicles, gridId);
+    } catch (e) {
+        console.error("Filter request failed:", e);
+        if (grid) grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; background:#f8d7da; color:#721c24; border-radius:8px;"><h3>Failed to load vehicles.</h3><p>Please check your connection and try again.</p></div>';
     }
-
-    filtered.sort((a, b) => {
-        return sort === 'asc' ? a.dailyRate - b.dailyRate : b.dailyRate - a.dailyRate;
-    });
-
-    renderVehicles(filtered, isCarPage ? 'carList' : 'bikeList');
 }
 
 function renderVehicles(vehicles, containerId) {
@@ -206,8 +191,8 @@ function renderVehicles(vehicles, containerId) {
     if (!grid) return;
     grid.innerHTML = '';
 
-    if (vehicles.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; background:#f8f9fa; border-radius:8px;"><h3>No vehicles found for this location.</h3><p>Try changing your search filters.</p></div>';
+    if (!vehicles || vehicles.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; background:#f8f9fa; border-radius:8px;"><h3>No vehicles found matching your criteria.</h3><p>Try adjusting your search filters.</p></div>';
         return;
     }
 
