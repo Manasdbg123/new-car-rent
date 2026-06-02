@@ -9,24 +9,21 @@ function initApp() {
     setupNavbar();
 }
 
-// Hero Search Widget Logic
+// ==========================================
+// ROUTING & NAVIGATION LOGIC
+// ==========================================
 window.executeHeroSearch = (forcedCity, forcedType) => {
     const loc = forcedCity || document.getElementById('heroLocation').value;
     const type = forcedType || document.getElementById('heroType').value;
 
-    // Set the dropdowns in the target views
     const carCityFilter = document.getElementById('carCityFilter');
     const bikeCityFilter = document.getElementById('bikeCityFilter');
 
-    if (type === 'cars' && carCityFilter) {
-        carCityFilter.value = loc;
-    } else if (type === 'bikes' && bikeCityFilter) {
-        bikeCityFilter.value = loc;
-    }
+    if (type === 'cars' && carCityFilter) carCityFilter.value = loc;
+    else if (type === 'bikes' && bikeCityFilter) bikeCityFilter.value = loc;
 
-    // Route to the page
     window.location.hash = '#' + type;
-    filterVehicles(); // Trigger filter
+    filterVehicles();
 };
 
 function handleRouting() {
@@ -54,11 +51,20 @@ function handleRouting() {
     else if (hash === '#dashboard') loadMyBookings();
 }
 
+// ==========================================
+// MODAL & UI CONTROLS
+// ==========================================
 function showModal(id) { document.getElementById(id).style.display = 'flex'; }
 function hideModal(id) { document.getElementById(id).style.display = 'none'; }
-window.closeBookingModal = () => hideModal('bookingModal');
 
-// DYNAMIC MODAL FOR ADDITIONAL CONDITIONS LOGIC
+// Global timer variable for real-time inventory locks
+let bookingTimerInterval;
+
+window.closeBookingModal = () => {
+    clearInterval(bookingTimerInterval);
+    hideModal('bookingModal');
+};
+
 window.openInfoModal = (vehicleType, brandName) => {
     const title = document.getElementById('infoModalTitle');
     const body = document.getElementById('infoModalBody');
@@ -70,72 +76,27 @@ window.openInfoModal = (vehicleType, brandName) => {
         body.innerHTML = `
             <p style="margin-top:0;"><strong>🏍️ Two-Wheeler Deployment Protocols:</strong></p>
             <ul style="padding-left:20px; line-height:1.6;">
-                <li><strong>Helmets Provided:</strong> Includes one complimentary safety helmet; secondary elements charged during physical collection.</li>
-                <li><strong>Security Hold:</strong> A temporary holding credit authorization of $100 is handled at the logistics lot.</li>
-                <li><strong>Speed Regulations:</strong> Electronic tracking limit governed at a maximum tier threshold of 100 km/h.</li>
-                <li><strong>Insurance Scope:</strong> Full comprehensive insurance covers accidental damage exclusions except structural tires.</li>
+                <li><strong>Helmets Provided:</strong> One complimentary safety helmet included.</li>
+                <li><strong>Security Hold:</strong> A temporary holding credit authorization of $100.</li>
             </ul>
         `;
     } else {
         body.innerHTML = `
             <p style="margin-top:0;"><strong>🚗 Four-Wheeler Fleet Regulations:</strong></p>
             <ul style="padding-left:20px; line-height:1.6;">
-                <li><strong>Unlimited Mileage:</strong> Drive across boundaries with infinite transit operations inside federal lines.</li>
-                <li><strong>Security Hold:</strong> A temporary holding credit authorization of $300 is processed at dispatch desks.</li>
-                <li><strong>Roadside Coverage:</strong> Includes standard full platform breakdown dispatch and vehicle swaps.</li>
-                <li><strong>Fuel Terms:</strong> Vehicle must be dropped with full tank status to bypass service refueling penalties.</li>
+                <li><strong>Unlimited Mileage:</strong> Drive across boundaries with infinite transit operations.</li>
+                <li><strong>Security Hold:</strong> A temporary holding credit authorization of $300.</li>
             </ul>
         `;
     }
     showModal('infoModal');
 };
+
 window.closeInfoModal = () => hideModal('infoModal');
 
-function setupEventListeners() {
-    document.getElementById('openLogin')?.addEventListener('click', () => showModal('loginModal'));
-    document.getElementById('closeLogin')?.addEventListener('click', () => hideModal('loginModal'));
-    document.getElementById('openRegister')?.addEventListener('click', () => showModal('registerModal'));
-    document.getElementById('closeRegister')?.addEventListener('click', () => hideModal('registerModal'));
-    document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
-    document.getElementById('registerForm')?.addEventListener('submit', handleRegister);
-}
-
-function isAuthenticated() { return localStorage.getItem('accessToken') !== null; }
-window.handleLogout = () => { localStorage.clear(); window.location.hash = '#home'; location.reload(); }
-
-function setupNavbar() {
-    const authContainer = document.getElementById('authButtons');
-    if (!authContainer) return;
-    if (isAuthenticated()) {
-        const name = localStorage.getItem('userFullName') || 'Account';
-        authContainer.innerHTML = `
-            <span style="color:#0056b3; font-weight:bold; margin-right:15px;">Welcome, ${name}</span>
-            <button class="btn login-btn" style="border:2px solid #dc3545 !important; color:#dc3545 !important;" onclick="handleLogout()">Logout</button>
-        `;
-    } else {
-        authContainer.innerHTML = `
-            <button class="btn login-btn" id="openLogin">Sign In</button>
-            <button class="btn register-btn" id="openRegister">Register</button>
-        `;
-        document.getElementById('openLogin').addEventListener('click', () => showModal('loginModal'));
-        document.getElementById('openRegister').addEventListener('click', () => showModal('registerModal'));
-    }
-}
-
-async function secureFetch(url, options = {}) {
-    const token = localStorage.getItem('accessToken');
-    options.headers = { ...options.headers, 'Content-Type': 'application/json' };
-    if (token) options.headers['Authorization'] = `Bearer ${token}`;
-    const response = await fetch(url, options);
-    if (response.status === 401) handleLogout();
-    return response;
-}
-
 // ==========================================
-// SERVER-SIDE SEARCH LOGIC (NEW)
+// DYNAMIC SERVER-SIDE SEARCH ENGINE
 // ==========================================
-
-// Adding a debounce to prevent spamming the server when typing in maxPrice
 let searchTimeout;
 window.debounceFilter = () => {
     clearTimeout(searchTimeout);
@@ -149,7 +110,6 @@ window.filterVehicles = async () => {
     let isCarPage = hash === '#cars';
     let type = isCarPage ? 'CAR' : 'BIKE';
 
-    // Grab the values from the specific UI section
     let citySelect = document.getElementById(isCarPage ? 'carCityFilter' : 'bikeCityFilter');
     let brandSelect = document.getElementById(isCarPage ? 'carBrandFilter' : 'bikeBrandFilter');
     let priceInput = document.getElementById(isCarPage ? 'carMaxPrice' : 'bikeMaxPrice');
@@ -158,11 +118,9 @@ window.filterVehicles = async () => {
     let brand = brandSelect ? brandSelect.value : 'all';
     let maxPrice = priceInput ? priceInput.value : '';
 
-    // Dynamically build the Server Query String
     const params = new URLSearchParams();
     params.append('vehicleType', type);
-    params.append('size', '50'); // Maximum elements to fetch per page
-
+    params.append('size', '50');
     if (city && city !== 'all') params.append('city', city);
     if (brand && brand !== 'all') params.append('brand', brand);
     if (maxPrice) params.append('maxPrice', maxPrice);
@@ -178,10 +136,8 @@ window.filterVehicles = async () => {
 
         const data = await res.json();
         const vehicles = data.data?.content || data.content || data.data || data;
-
         renderVehicles(vehicles, gridId);
     } catch (e) {
-        console.error("Filter request failed:", e);
         if (grid) grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; background:#f8d7da; color:#721c24; border-radius:8px;"><h3>Failed to load vehicles.</h3><p>Please check your connection and try again.</p></div>';
     }
 }
@@ -192,7 +148,7 @@ function renderVehicles(vehicles, containerId) {
     grid.innerHTML = '';
 
     if (!vehicles || vehicles.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; background:#f8f9fa; border-radius:8px;"><h3>No vehicles found matching your criteria.</h3><p>Try adjusting your search filters.</p></div>';
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; background:#f8f9fa; border-radius:8px;"><h3>No vehicles found matching your criteria.</h3></div>';
         return;
     }
 
@@ -230,7 +186,81 @@ function renderVehicles(vehicles, containerId) {
 }
 
 // ==========================================
-// MY BOOKINGS & DASHBOARD ACTIONS
+// BOOKING & INVENTORY LOCK SYSTEM
+// ==========================================
+window.openBookingModal = async (carId, carName) => {
+    if (!isAuthenticated()) { alert('Please login to continue.'); showModal('loginModal'); return; }
+
+    try {
+        // Attempt to acquire an inventory lock
+        const res = await secureFetch(`/api/cars/${carId}/lock`, { method: 'POST' });
+        if (!res.ok) {
+            alert('This vehicle is currently reserved by another user finishing their checkout. Please try again in 10 minutes.');
+            return;
+        }
+
+        document.getElementById('bookingCarId').value = carId;
+        document.getElementById('bookingCarName').innerText = `Reserve: ${carName}`;
+        document.getElementById('startDate').value = '';
+        document.getElementById('endDate').value = '';
+
+        // Launch 10 Minute Countdown UI
+        let timeRemaining = 600;
+        const timerUI = document.getElementById('lockTimer');
+        if(timerUI) timerUI.style.display = 'block';
+
+        clearInterval(bookingTimerInterval);
+        bookingTimerInterval = setInterval(() => {
+            timeRemaining--;
+            let m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+            let s = (timeRemaining % 60).toString().padStart(2, '0');
+
+            const countdownEl = document.getElementById('lockCountdown');
+            if(countdownEl) countdownEl.innerText = `${m}:${s}`;
+
+            if (timeRemaining <= 0) {
+                clearInterval(bookingTimerInterval);
+                hideModal('bookingModal');
+                alert('Your reservation hold has expired. The vehicle has been returned to the public pool.');
+                filterVehicles(); // Refresh the grid
+            }
+        }, 1000);
+
+        showModal('bookingModal');
+    } catch(e) {
+        console.error("Lock failed:", e);
+    }
+}
+
+window.confirmBooking = async () => {
+    const carId = document.getElementById('bookingCarId').value;
+    const rawStart = document.getElementById('startDate').value;
+    const rawEnd = document.getElementById('endDate').value;
+
+    if (!rawStart || !rawEnd) return alert('Please select dates.');
+
+    const payload = {
+        carId: parseInt(carId),
+        startAt: rawStart.length === 16 ? rawStart : rawStart.substring(0, 16),
+        endAt: rawEnd.length === 16 ? rawEnd : rawEnd.substring(0, 16)
+    };
+
+    try {
+        const res = await secureFetch('/api/bookings', { method: 'POST', body: JSON.stringify(payload) });
+        if (res.ok) {
+            clearInterval(bookingTimerInterval);
+            alert('Your booking is confirmed!');
+            hideModal('bookingModal');
+            window.location.hash = '#dashboard';
+        } else {
+            let err; try { err = await res.json(); } catch(e){}
+            alert('Booking failed: ' + (err?.message || 'Dates are unavailable.'));
+        }
+    } catch (e) { console.error(e); }
+}
+
+// ==========================================
+// DASHBOARD (MY BOOKINGS)
 // ==========================================
 async function loadMyBookings() {
     const grid = document.getElementById('myBookings');
@@ -240,6 +270,7 @@ async function loadMyBookings() {
     try {
         const res = await secureFetch('/api/bookings/my-bookings');
         if (!res.ok) { grid.innerHTML = '<p style="color: red;">Error fetching your bookings.</p>'; return; }
+
         const data = await res.json();
         const bookings = data.data || data;
 
@@ -268,41 +299,6 @@ async function loadMyBookings() {
     } catch (e) {}
 }
 
-window.openBookingModal = (carId, carName) => {
-    if (!isAuthenticated()) { alert('Please login to continue.'); showModal('loginModal'); return; }
-    document.getElementById('bookingCarId').value = carId;
-    document.getElementById('bookingCarName').innerText = `Reserve: ${carName}`;
-    document.getElementById('startDate').value = '';
-    document.getElementById('endDate').value = '';
-    showModal('bookingModal');
-}
-
-window.confirmBooking = async () => {
-    const carId = document.getElementById('bookingCarId').value;
-    const rawStart = document.getElementById('startDate').value;
-    const rawEnd = document.getElementById('endDate').value;
-
-    if (!rawStart || !rawEnd) return alert('Please select dates.');
-
-    const payload = {
-        carId: parseInt(carId),
-        startAt: rawStart.length === 16 ? rawStart : rawStart.substring(0, 16),
-        endAt: rawEnd.length === 16 ? rawEnd : rawEnd.substring(0, 16)
-    };
-
-    try {
-        const res = await secureFetch('/api/bookings', { method: 'POST', body: JSON.stringify(payload) });
-        if (res.ok) {
-            alert('Your booking is confirmed!');
-            hideModal('bookingModal');
-            window.location.hash = '#dashboard';
-        } else {
-            let err; try { err = await res.json(); } catch(e){}
-            alert('Booking failed: ' + (err?.message || 'Dates are unavailable. Please select different dates.'));
-        }
-    } catch (e) { console.error(e); }
-}
-
 window.cancelBooking = async (bookingId) => {
     if(!confirm("Are you sure you want to cancel this reservation?")) return;
     try {
@@ -314,14 +310,65 @@ window.cancelBooking = async (bookingId) => {
     } catch (e) { console.error(e); }
 }
 
-// SECURITY LOGISTICS FORM HANDLERS
+// ==========================================
+// AUTHENTICATION & SECURITY
+// ==========================================
+function setupEventListeners() {
+    document.getElementById('openLogin')?.addEventListener('click', () => showModal('loginModal'));
+    document.getElementById('closeLogin')?.addEventListener('click', () => hideModal('loginModal'));
+    document.getElementById('openRegister')?.addEventListener('click', () => showModal('registerModal'));
+    document.getElementById('closeRegister')?.addEventListener('click', () => hideModal('registerModal'));
+    document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
+    document.getElementById('registerForm')?.addEventListener('submit', handleRegister);
+}
+
+function isAuthenticated() { return localStorage.getItem('accessToken') !== null; }
+window.handleLogout = () => { localStorage.clear(); window.location.hash = '#home'; location.reload(); }
+
+function setupNavbar() {
+    const authContainer = document.getElementById('authButtons');
+    if (!authContainer) return;
+
+    if (isAuthenticated()) {
+        const name = localStorage.getItem('userFullName') || 'Account';
+        authContainer.innerHTML = `
+            <span style="color:#0056b3; font-weight:bold; margin-right:15px;">Welcome, ${name}</span>
+            <button class="btn login-btn" style="border:2px solid #dc3545 !important; color:#dc3545 !important;" onclick="handleLogout()">Logout</button>
+        `;
+    } else {
+        authContainer.innerHTML = `
+            <button class="btn login-btn" id="openLogin">Sign In</button>
+            <button class="btn register-btn" id="openRegister">Register</button>
+        `;
+        // Re-attach event listeners after DOM injection
+        document.getElementById('openLogin').addEventListener('click', () => showModal('loginModal'));
+        document.getElementById('openRegister').addEventListener('click', () => showModal('registerModal'));
+    }
+}
+
+async function secureFetch(url, options = {}) {
+    const token = localStorage.getItem('accessToken');
+    options.headers = { ...options.headers, 'Content-Type': 'application/json' };
+    if (token) options.headers['Authorization'] = `Bearer ${token}`;
+
+    const response = await fetch(url, options);
+    // Auto-logout if the token expires (Now properly handling HTTP 401s from the backend)
+    if (response.status === 401) handleLogout();
+    return response;
+}
+
 async function handleLogin(e) {
     e.preventDefault();
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
 
     try {
-        const res = await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
         if (res.ok) {
             const data = await res.json();
             localStorage.setItem('accessToken', data.data?.accessToken || data.accessToken);
@@ -330,8 +377,12 @@ async function handleLogin(e) {
             document.getElementById('loginForm').reset();
             window.location.hash = '#dashboard';
             window.location.reload();
-        } else alert('Login failed. Please check your credentials.');
-    } catch(err) {}
+        } else {
+            alert('Login failed. Please check your credentials.');
+        }
+    } catch(err) {
+        console.error(err);
+    }
 }
 
 async function handleRegister(e) {
@@ -344,11 +395,20 @@ async function handleRegister(e) {
     };
 
     try {
-        const res = await fetch('/api/auth/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        const res = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
         if (res.ok) {
             alert('Account created! Please log in.');
             hideModal('registerModal');
             showModal('loginModal');
-        } else alert('Registration failed. Email might already be in use.');
-    } catch(err) {}
+        } else {
+            alert('Registration failed. Email might already be in use.');
+        }
+    } catch(err) {
+        console.error(err);
+    }
 }

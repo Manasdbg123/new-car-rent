@@ -14,14 +14,13 @@ import java.math.BigDecimal;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
 
-	// Keep the basic find method
 	Page<Car> findByStatus(CarStatus status, Pageable pageable);
 
-	// Keep the existence check
 	boolean existsByLicensePlate(String licensePlate);
 
-	// NEW: Advanced Search Query supporting multiple optional filters
+	// UPDATED: Now filters out cars that are currently locked by an active checkout session
 	@Query("SELECT c FROM Car c WHERE c.status = :status " +
+			"AND (c.lockedUntil IS NULL OR c.lockedUntil < CURRENT_TIMESTAMP) " +
 			"AND (:city IS NULL OR c.city = :city) " +
 			"AND (:brand IS NULL OR c.brand = :brand) " +
 			"AND (:vehicleType IS NULL OR c.vehicleType = :vehicleType) " +

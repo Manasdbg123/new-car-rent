@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,25 +27,16 @@ public class CarService {
 	private final CarMapper carMapper;
 
 	public List<CarResponse> getAllCars() {
-		return carRepository.findAll()
-				.stream()
-				.map(carMapper::toResponse)
-				.toList();
+		return carRepository.findAll().stream().map(carMapper::toResponse).toList();
 	}
 
-	// UPDATED: Now supports advanced filtering
 	public Page<CarResponse> getAvailableCars(
 			String city, String brand, String vehicleType,
 			String transmission, String fuelType,
 			BigDecimal minPrice, BigDecimal maxPrice,
 			int page, int size, String sortBy
 	) {
-		Pageable pageable = PageRequest.of(
-				page,
-				size,
-				Sort.by(sortBy).descending()
-		);
-
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
 		return carRepository.searchAvailableCars(
 						CarStatus.AVAILABLE, city, brand, vehicleType,
 						transmission, fuelType, minPrice, maxPrice, pageable)
@@ -52,52 +44,56 @@ public class CarService {
 	}
 
 	public CarResponse getCarById(Long id) {
-		Car car = carRepository.findById(id)
-				.orElseThrow(() ->
-						new ResourceNotFoundException("Car not found")
-				);
-
+		Car car = carRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car not found"));
 		return carMapper.toResponse(car);
+	}
+
+	// NEW: Real-time inventory locking logic
+	@Transactional
+	public boolean lockCar(Long carId, String userEmail) {
+		Car car = carRepository.findById(carId).orElseThrow(() -> new ResourceNotFoundException("Car not found"));
+
+		if (car.getStatus() != CarStatus.AVAILABLE) return false;
+
+		LocalDateTime now = LocalDateTime.now();
+
+		// If someone else holds an active lock, deny the request
+		if (car.getLockedUntil() != null && car.getLockedUntil().isAfter(now)) {
+			if (!userEmail.equals(car.getLockedBy())) {
+				return false;
+			}
+		}
+
+		// Grant a 10-minute hold
+		car.setLockedUntil(now.plusMinutes(10));
+		car.setLockedBy(userEmail);
+		carRepository.save(car);
+		return true;
 	}
 
 	@Transactional
 	public CarResponse createCar(CarRequest request) {
-
 		if (carRepository.existsByLicensePlate(request.getLicensePlate())) {
 			throw new BadRequestException("License plate already exists");
 		}
-
 		Car car = carMapper.toEntity(request);
 		Car savedCar = carRepository.save(car);
-
 		log.info("Car created successfully: {}", savedCar.getId());
-
 		return carMapper.toResponse(savedCar);
 	}
 
 	@Transactional
 	public CarResponse updateCar(Long id, CarRequest request) {
-
-		Car car = carRepository.findById(id)
-				.orElseThrow(() ->
-						new ResourceNotFoundException("Car not found")
-				);
-
+		Car car = carRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car not found"));
 		carMapper.updateEntity(car, request);
 		Car updatedCar = carRepository.save(car);
-
 		log.info("Car updated successfully: {}", updatedCar.getId());
-
 		return carMapper.toResponse(updatedCar);
 	}
 
 	@Transactional
 	public void deleteCar(Long id) {
-		Car car = carRepository.findById(id)
-				.orElseThrow(() ->
-						new ResourceNotFoundException("Car not found")
-				);
-
+		Car car = carRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car not found"));
 		carRepository.delete(car);
 		log.info("Car deleted successfully: {}", id);
 	}
