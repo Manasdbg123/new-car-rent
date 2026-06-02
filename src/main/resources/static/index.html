@@ -47,7 +47,7 @@
 		.info-box h4 { margin: 0 0 10px 0; color: #111; font-size: 1.1rem; }
 		.info-box p { margin: 0; color: #666; font-size: 0.9rem; line-height: 1.4; }
 
-		/* DETAILED ADDITIONAL INFO SECTION (RENTALCARS STYLE) */
+		/* DETAILED ADDITIONAL INFO SECTION */
 		.additional-info-section { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
 		.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 25px; margin-top: 20px; }
 		.info-card { background: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
@@ -66,18 +66,19 @@
 
 		/* LAYOUT & STRUCTURE */
 		.section-title { text-align: center; font-size: 2.2rem; margin: 60px 0 30px; color: #222; font-weight: 800; }
-		.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 0 5%; }
+		.grid-destinations { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; padding: 0 5%; max-width: 1400px; margin: 0 auto; }
 		.cars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 20px 5% 60px 5%; max-width: 1400px; margin: 0 auto;}
 		.pro-header { text-align: center; padding: 60px 20px; background: #0056b3; color: white; margin-bottom: 30px; }
 		.pro-header h1, .pro-header p { color: white !important; margin:0; padding-top:10px;}
 
-		/* ACCORDION FAQ BLOCK */
-		.faq-section { max-width: 850px; margin: 60px auto; padding: 0 20px; }
+		/* TWO-COLUMN ACCORDION BLOCK */
+		.two-col-accordion { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; max-width: 1200px; margin: 60px auto; padding: 0 20px; align-items: start; }
+		.accordion-column h2 { font-size: 1.4rem; margin-bottom: 20px; color: #111; font-weight: bold; padding-bottom: 10px; border-bottom: 2px solid #0056b3; display: inline-block; }
 		.faq-item { background: white; margin-bottom: 12px; border-radius: 6px; border: 1px solid #ddd; overflow: hidden; }
-		.faq-question { padding: 18px 20px; font-weight: bold; color: #222; cursor: pointer; background: #fff; display: flex; justify-content: space-between; align-items: center; user-select: none; }
-		.faq-question:hover { background: #f9f9f9; }
-		.faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; color: #555; font-size: 0.95rem; line-height: 1.5; background: #fff; }
-		.faq-item.active .faq-answer { padding: 15px 20px 20px 20px; max-height: 200px; border-top: 1px solid #eee; }
+		.faq-question { padding: 18px 20px; font-weight: bold; color: #333; cursor: pointer; background: #fff; display: flex; justify-content: space-between; align-items: center; user-select: none; font-size: 0.95rem; }
+		.faq-question:hover { background: #f9f9f9; color: #0056b3; }
+		.faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; color: #555; font-size: 0.9rem; line-height: 1.5; background: #fff; }
+		.faq-item.active .faq-answer { padding: 15px 20px 20px 20px; max-height: 300px; border-top: 1px solid #eee; }
 		.faq-icon { transition: transform 0.3s; font-weight: bold; color: #0056b3; }
 		.faq-item.active .faq-icon { transform: rotate(180deg); }
 
@@ -100,6 +101,7 @@
 		@media (max-width: 768px) {
 			.search-widget-container { grid-template-columns: 1fr; margin-top: 20px; }
 			.nav-links { display: none; }
+			.two-col-accordion { grid-template-columns: 1fr; gap: 20px; }
 		}
 	</style>
 </head>
@@ -116,7 +118,7 @@
 	<div class="auth-buttons" id="authButtons"></div>
 </nav>
 
-<main id="app-content">
+<nav id="app-content">
 
 	<section id="home-view" class="page-view">
 		<div class="hero" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
@@ -126,6 +128,7 @@
 			</div>
 		</div>
 
+		<!-- RENTALCARS STYLE SEARCH WIDGET -->
 		<form class="search-widget-container" onsubmit="event.preventDefault(); window.executeHeroSearch();">
 			<div class="search-group">
 				<label>Pick-up Location</label>
@@ -152,6 +155,7 @@
 			<button type="submit" class="search-btn-large" id="btnSearchHero">Search</button>
 		</form>
 
+		<!-- VALUE ADD STRIP -->
 		<div class="info-strip">
 			<div class="info-box">
 				<h4>Flexible Rentals</h4>
@@ -171,6 +175,130 @@
 			</div>
 		</div>
 
+		<div class="content-section">
+			<h2 class="section-title">Popular Destinations in India</h2>
+			<div class="grid-destinations">
+				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Mumbai', 'cars')">
+					<img src="/images/Mumbai.jpg" style="width:100%; height:200px; object-fit:cover;" alt="Mumbai">
+					<h3 style="padding: 15px; margin:0;">Mumbai</h3>
+				</div>
+				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Delhi', 'cars')">
+					<img src="/images/Delhi.jpg" style="width:100%; height:200px; object-fit:cover;" alt="Delhi">
+					<h3 style="padding: 15px; margin:0;">Delhi</h3>
+				</div>
+				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Bangalore', 'bikes')">
+					<img src="/images/Bangalore.jpg" style="width:100%; height:200px; object-fit:cover;" alt="Bangalore">
+					<h3 style="padding: 15px; margin:0;">Bangalore</h3>
+				</div>
+				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Banaras', 'cars')">
+					<img src="/images/banaras.jpg" style="width:100%; height:200px; object-fit:cover;" alt="Banaras">
+					<h3 style="padding: 15px; margin:0;">Banaras (Varanasi)</h3>
+				</div>
+				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Goa', 'cars')">
+					<img src="/images/goa.jpg" style="width:100%; height:200px; object-fit:cover;" alt="Goa">
+					<h3 style="padding: 15px; margin:0;">Goa</h3>
+				</div>
+				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Jaipur', 'cars')">
+					<img src="/images/jaipur.jpg" style="width:100%; height:200px; object-fit:cover;" alt="Jaipur">
+					<h3 style="padding: 15px; margin:0;">Jaipur</h3>
+				</div>
+				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Meghalaya', 'cars')">
+					<img src="/images/meghalaya.jpg" style="width:100%; height:200px; object-fit:cover;" alt="Meghalaya">
+					<h3 style="padding: 15px; margin:0;">Meghalaya</h3>
+				</div>
+				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Andaman', 'cars')">
+					<img src="/images/andaman-island.jpg" style="width:100%; height:200px; object-fit:cover;" alt="Andaman Islands">
+					<h3 style="padding: 15px; margin:0;">Andaman Islands</h3>
+				</div>
+			</div>
+		</div>
+
+		<!-- TWO-COLUMN FAQ AND ADDITIONAL INFO (RENTALCARS.COM STYLE) -->
+		<div class="two-col-accordion">
+			<!-- Left Column: FAQ -->
+			<div class="accordion-column">
+				<h2>Frequently Asked Questions</h2>
+
+				<div class="faq-item">
+					<div class="faq-question" onclick="toggleFaq(this)">What do I need to rent a car? <span class="faq-icon">▼</span></div>
+					<div class="faq-answer">To book your vehicle, all you need is a credit or debit card. When you pick up the vehicle, you'll need your voucher, the main driver's credit/debit card, their valid driving licence, and an additional form of ID (like a passport).</div>
+				</div>
+
+				<div class="faq-item">
+					<div class="faq-question" onclick="toggleFaq(this)">How old do I have to be to rent a car? <span class="faq-icon">▼</span></div>
+					<div class="faq-answer">For most rental companies, the minimum age requirement is between 21 and 70 years old. If you're under 25 or over 70, you might have to pay an additional fee.</div>
+				</div>
+
+				<div class="faq-item">
+					<div class="faq-question" onclick="toggleFaq(this)">Can I book a rental car for someone else? <span class="faq-icon">▼</span></div>
+					<div class="faq-answer">Yes, as long as they meet these requirements. Just fill in their details while you're making the reservation.</div>
+				</div>
+
+				<div class="faq-item">
+					<div class="faq-question" onclick="toggleFaq(this)">How do I find the cheapest car rental deal? <span class="faq-icon">▼</span></div>
+					<div class="faq-answer">We work with all the major international car hire brands to bring you a huge choice of cars at the very best prices. Just use our search form to compare deals.</div>
+				</div>
+
+				<div class="faq-item">
+					<div class="faq-question" onclick="toggleFaq(this)">What should I look for when I'm choosing a car? <span class="faq-icon">▼</span></div>
+					<div class="faq-answer">Consider the amount of luggage you'll have and the number of passengers. Make sure to check the fuel policy, mileage limits, and the amount required for the security deposit.</div>
+				</div>
+
+				<div class="faq-item">
+					<div class="faq-question" onclick="toggleFaq(this)">Are all fees included in the rental price? <span class="faq-icon">▼</span></div>
+					<div class="faq-answer">The vast majority of our rentals include Theft Protection, Collision Damage Waiver (CDW), local taxes, airport surcharges and any road fees. Any extra hidden fees will be clearly stated before booking.</div>
+				</div>
+			</div>
+
+			<!-- Right Column: Additional Information -->
+			<div class="accordion-column">
+				<h2>Additional Information</h2>
+
+				<div class="faq-item">
+					<div class="faq-question" onclick="toggleFaq(this)">Related searches <span class="faq-icon">▼</span></div>
+					<div class="faq-answer">
+						<ul style="list-style-type: none; padding: 0; margin: 0;">
+							<li><a href="#cars" style="color:#0056b3; text-decoration:none;">Luxury Car Rentals</a></li>
+							<li><a href="#bikes" style="color:#0056b3; text-decoration:none;">Monthly Bike Subscriptions</a></li>
+							<li><a href="#cars" style="color:#0056b3; text-decoration:none;">7-Seater SUVs</a></li>
+							<li><a href="#cars" style="color:#0056b3; text-decoration:none;">Automatic Transmission Vehicles</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="faq-item">
+					<div class="faq-question" onclick="toggleFaq(this)">Popular Destinations <span class="faq-icon">▼</span></div>
+					<div class="faq-answer">
+						<ul style="list-style-type: none; padding: 0; margin: 0;">
+							<li><a href="#" onclick="executeHeroSearch('Bangalore', 'cars'); return false;" style="color:#0056b3; text-decoration:none;">Car Hire in Bangalore</a></li>
+							<li><a href="#" onclick="executeHeroSearch('Mumbai', 'cars'); return false;" style="color:#0056b3; text-decoration:none;">Car Hire in Mumbai</a></li>
+							<li><a href="#" onclick="executeHeroSearch('Delhi', 'cars'); return false;" style="color:#0056b3; text-decoration:none;">Car Hire in New Delhi</a></li>
+							<li><a href="#" onclick="executeHeroSearch('Goa', 'bikes'); return false;" style="color:#0056b3; text-decoration:none;">Bike Hire in Goa</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="faq-item">
+					<div class="faq-question" onclick="toggleFaq(this)">Airports <span class="faq-icon">▼</span></div>
+					<div class="faq-answer">
+						<ul style="list-style-type: none; padding: 0; margin: 0;">
+							<li><a href="#" style="color:#0056b3; text-decoration:none;">Chhatrapati Shivaji Maharaj International (BOM)</a></li>
+							<li><a href="#" style="color:#0056b3; text-decoration:none;">Indira Gandhi International Airport (DEL)</a></li>
+							<li><a href="#" style="color:#0056b3; text-decoration:none;">Kempegowda International Airport (BLR)</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="faq-item">
+					<div class="faq-question" onclick="toggleFaq(this)">Car Rental Companies <span class="faq-icon">▼</span></div>
+					<div class="faq-answer">
+						<p style="margin:0;">We partner with top-rated local and global fleet providers to bring you options from Zoomcar, Revv, Royal Brothers, and independent premium dealers.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- NEW COMPREHENSIVE ADDITIONAL INFORMATION GRID SECTION -->
 		<div class="additional-info-section">
 			<h2 class="section-title">Important Rental Information</h2>
 			<div class="info-grid">
@@ -205,48 +333,7 @@
 			<h3>BMW</h3><h3>Mercedes</h3><h3>Audi</h3><h3>Royal Enfield</h3><h3>Porsche</h3><h3>KTM</h3>
 		</div>
 
-		<div class="content-section">
-			<h2 class="section-title">Popular Destinations in India</h2>
-			<div class="grid-3">
-				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Mumbai', 'cars')">
-					<img src="https://images.unsplash.com/photo-1522206090940-025a1e2f38cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" style="width:100%; height:200px; object-fit:cover;" alt="Mumbai">
-					<h3 style="padding: 15px; margin:0;">Mumbai (Cars & Bikes)</h3>
-				</div>
-				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Delhi', 'cars')">
-					<img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" style="width:100%; height:200px; object-fit:cover;" alt="Delhi">
-					<h3 style="padding: 15px; margin:0;">Delhi (Cars & Bikes)</h3>
-				</div>
-				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Bangalore', 'bikes')">
-					<img src="https://images.unsplash.com/photo-1596176530529-78163a4f7af2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" style="width:100%; height:200px; object-fit:cover;" alt="Bangalore">
-					<h3 style="padding: 15px; margin:0;">Bangalore (Bikes Focus)</h3>
-				</div>
-			</div>
-		</div>
-
-		<div class="faq-section">
-			<h2 class="section-title">Frequently Asked Questions</h2>
-
-			<div class="faq-item">
-				<div class="faq-question" onclick="toggleFaq(this)">What do I need to rent a car or bike? <span class="faq-icon">▼</span></div>
-				<div class="faq-answer">To book a vehicle, you need a valid Aadhaar card/Passport, a regular active driver's license matching the target vehicle framework (2-wheeler or 4-wheeler), and an authorized secure payment method profile.</div>
-			</div>
-
-			<div class="faq-item">
-				<div class="faq-question" onclick="toggleFaq(this)">Am I old enough to hire a vehicle? <span class="faq-icon">▼</span></div>
-				<div class="faq-answer">For standard commuter cars and bikes, the minimum driver authorization age threshold is 21 years old. For premium luxury categories (BMW, Mercedes, Superbikes), renters must be at least 25 years old.</div>
-			</div>
-
-			<div class="faq-item">
-				<div class="faq-question" onclick="toggleFaq(this)">Are all fees included in the deployment cost? <span class="faq-icon">▼</span></div>
-				<div class="faq-answer">Yes, our basic daily rate calculation grid covers vehicle deployment, basic third-party platform insurance matching local regulations, and value-added tax profiles. Fuel costs are managed based on pickup levels.</div>
-			</div>
-
-			<div class="faq-item">
-				<div class="faq-question" onclick="toggleFaq(this)">Can I book a rental for someone else? <span class="faq-icon">▼</span></div>
-				<div class="faq-answer">Yes, provided that you input their full legal identity profile data during the reservation processing screen. The primary operator must present their own original matching documentation upon logistics handover execution.</div>
-			</div>
-		</div>
-
+		<!-- REVIEWS SECTION -->
 		<div class="content-section alt-bg" style="background:#f8f9fa; padding: 40px 0 60px 0; border-top: 1px solid #eee; margin-top: 40px;">
 			<h2 class="section-title">What Our Customers Say</h2>
 			<div class="reviews-grid">
@@ -317,8 +404,9 @@
 		</div>
 	</section>
 
-</main>
+</nav>
 
+<!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
 	<div class="modal-content">
 		<span class="close-btn" id="closeLogin">&times;</span>
@@ -331,6 +419,7 @@
 	</div>
 </div>
 
+<!-- REGISTER MODAL -->
 <div class="modal" id="registerModal">
 	<div class="modal-content">
 		<span class="close-btn" id="closeRegister">&times;</span>
@@ -345,6 +434,7 @@
 	</div>
 </div>
 
+<!-- BOOKING MODAL -->
 <div class="modal" id="bookingModal">
 	<div class="modal-content">
 		<span class="close-btn" onclick="closeBookingModal()">&times;</span>
@@ -358,6 +448,7 @@
 	</div>
 </div>
 
+<!-- COMPREHENSIVE VEHICLE ADDITIONAL SPECIFICATIONS POPUP MODAL -->
 <div class="modal" id="infoModal">
 	<div class="modal-content" style="max-width: 550px;">
 		<span class="close-btn" onclick="closeInfoModal()">&times;</span>
