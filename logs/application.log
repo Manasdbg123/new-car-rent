@@ -958,3 +958,986 @@ Need more flexibility with validation rules? Learn more: https://rd.gt/3AbJUZE
 	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
 	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
 
+2026-06-02 02:38:15 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h26s376ms186µs200ns).
+2026-06-02 12:00:16 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9h22m2s133ms158µs400ns).
+2026-06-02 12:02:29 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.brand,
+        c1_0.city,
+        c1_0.created_at,
+        c1_0.daily_rate,
+        c1_0.description,
+        c1_0.fuel_type,
+        c1_0.image_url,
+        c1_0.license_plate,
+        c1_0.manufacture_year,
+        c1_0.model,
+        c1_0.seats,
+        c1_0.status,
+        c1_0.transmission,
+        c1_0.updated_at,
+        c1_0.version 
+    from
+        cars c1_0 
+    where
+        c1_0.status=? 
+    order by
+        c1_0.created_at desc 
+    limit
+        ?, ?
+2026-06-02 12:15:16 [SpringApplicationShutdownHook] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 12:15:17 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-02 12:15:17 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-02 12:15:23 [main] INFO  com.carrental.CarRentalApplication - Starting CarRentalApplication using Java 21.0.10 with PID 36036 (C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes started by kaust in C:\Users\kaust\Downloads\Car_Rent\Car_Rent)
+2026-06-02 12:15:23 [main] DEBUG com.carrental.CarRentalApplication - Running with Spring Boot v3.3.0, Spring v6.1.8
+2026-06-02 12:15:23 [main] INFO  com.carrental.CarRentalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-02 12:15:24 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-02 12:15:24 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 66 ms. Found 4 JPA repository interfaces.
+2026-06-02 12:15:25 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-06-02 12:15:25 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-02 12:15:25 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-06-02 12:15:25 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-06-02 12:15:25 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1934 ms
+2026-06-02 12:15:25 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-02 12:15:25 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1de73d37
+2026-06-02 12:15:25 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-02 12:15:26 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:mysql://localhost:3306/car_rental (MySQL 8.0)
+2026-06-02 12:15:26 [main] ERROR org.springframework.boot.web.embedded.tomcat.TomcatStarter - Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'jwtAuthenticationFilter' defined in file [C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes\com\carrental\security\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'customUserDetailsService' defined in file [C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes\com\carrental\security\CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userRepository' defined in com.carrental.repository.UserRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
+2026-06-02 12:15:26 [main] INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2026-06-02 12:15:26 [main] WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-1 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1763)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1070)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+ java.base/java.lang.Thread.run(Thread.java:1583)
+2026-06-02 12:15:26 [main] WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-1 connection adder] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/sun.nio.ch.Net.poll(Native Method)
+ java.base/sun.nio.ch.NioSocketImpl.park(NioSocketImpl.java:191)
+ java.base/sun.nio.ch.NioSocketImpl.timedRead(NioSocketImpl.java:280)
+ java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:304)
+ java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:346)
+ java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:796)
+ java.base/java.net.Socket$SocketInputStream.read(Socket.java:1099)
+ com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+ com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+ com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+ java.base/java.io.FilterInputStream.read(FilterInputStream.java:119)
+ com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+ com.mysql.cj.protocol.a.SimplePacketReader.readHeaderLocal(SimplePacketReader.java:81)
+ com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+ com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+ com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:576)
+ com.mysql.cj.protocol.a.NativeProtocol.readServerCapabilities(NativeProtocol.java:537)
+ com.mysql.cj.protocol.a.NativeProtocol.beforeHandshake(NativeProtocol.java:425)
+ com.mysql.cj.protocol.a.NativeProtocol.connect(NativeProtocol.java:1426)
+ com.mysql.cj.NativeSession.connect(NativeSession.java:133)
+ com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:935)
+ com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:805)
+ com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:438)
+ com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:241)
+ com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:189)
+ com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+ com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
+ com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
+ com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
+ com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:724)
+ com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:703)
+ java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+ java.base/java.lang.Thread.run(Thread.java:1583)
+2026-06-02 12:15:26 [main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2026-06-02 12:15:26 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-02 12:15:26 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-02 12:15:26 [main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-06-02 12:15:26 [main] ERROR org.springframework.boot.SpringApplication - Application run failed
+org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:165)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:618)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.carrental.CarRentalApplication.main(CarRentalApplication.java:10)
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:147)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:107)
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:516)
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:222)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:188)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:162)
+	... 8 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jwtAuthenticationFilter' defined in file [C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes\com\carrental\security\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'customUserDetailsService' defined in file [C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes\com\carrental\security\CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userRepository' defined in com.carrental.repository.UserRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1357)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:211)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:174)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:169)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:154)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:87)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:266)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:240)
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:52)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4414)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:171)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:772)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:171)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:203)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:171)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:415)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:171)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:874)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:171)
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:437)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:128)
+	... 13 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customUserDetailsService' defined in file [C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes\com\carrental\security\CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userRepository' defined in com.carrental.repository.UserRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1357)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 54 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userRepository' defined in com.carrental.repository.UserRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:377)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1687)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1436)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 68 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jpaSharedEM_entityManagerFactory': Cannot resolve reference to bean 'entityManagerFactory' while setting constructor argument
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:377)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:682)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1167)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365)
+	... 82 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Validate failed: Migrations have failed validation
+Migration checksum mismatch for migration version 1
+-> Applied to database : 607700761
+-> Resolved locally    : -1847996296
+Either revert the changes to the migration, or run repair to update the schema history.
+Migration checksum mismatch for migration version 2
+-> Applied to database : 855102885
+-> Resolved locally    : 1465864198
+Either revert the changes to the migration, or run repair to update the schema history.
+Need more flexibility with validation rules? Learn more: https://rd.gt/3AbJUZE
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1788)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:313)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365)
+	... 94 common frames omitted
+Caused by: org.flywaydb.core.api.exception.FlywayValidateException: Validate failed: Migrations have failed validation
+Migration checksum mismatch for migration version 1
+-> Applied to database : 607700761
+-> Resolved locally    : -1847996296
+Either revert the changes to the migration, or run repair to update the schema history.
+Migration checksum mismatch for migration version 2
+-> Applied to database : 855102885
+-> Resolved locally    : 1465864198
+Either revert the changes to the migration, or run repair to update the schema history.
+Need more flexibility with validation rules? Learn more: https://rd.gt/3AbJUZE
+	at org.flywaydb.core.Flyway.lambda$migrate$0(Flyway.java:160)
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:205)
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:147)
+	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1835)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1784)
+	... 103 common frames omitted
+2026-06-02 12:18:52 [main] INFO  com.carrental.CarRentalApplication - Starting CarRentalApplication using Java 21.0.10 with PID 25344 (C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes started by kaust in C:\Users\kaust\Downloads\Car_Rent\Car_Rent)
+2026-06-02 12:18:52 [main] DEBUG com.carrental.CarRentalApplication - Running with Spring Boot v3.3.0, Spring v6.1.8
+2026-06-02 12:18:52 [main] INFO  com.carrental.CarRentalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-02 12:18:53 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-02 12:18:53 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 64 ms. Found 4 JPA repository interfaces.
+2026-06-02 12:18:54 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-06-02 12:18:54 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-02 12:18:54 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-06-02 12:18:54 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-06-02 12:18:54 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1567 ms
+2026-06-02 12:18:54 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-02 12:18:54 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@156324b
+2026-06-02 12:18:54 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-02 12:18:54 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:mysql://localhost:3306/car_rental (MySQL 8.0)
+2026-06-02 12:18:54 [main] INFO  org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory - Schema history table `car_rental`.`flyway_schema_history` does not exist yet
+2026-06-02 12:18:54 [main] INFO  org.flywaydb.core.internal.command.DbValidate - Successfully validated 2 migrations (execution time 00:00.019s)
+2026-06-02 12:18:54 [main] INFO  org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory - Creating Schema History table `car_rental`.`flyway_schema_history` ...
+2026-06-02 12:18:55 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Current version of schema `car_rental`: << Empty Schema >>
+2026-06-02 12:18:55 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Migrating schema `car_rental` to version "1 - init schema"
+2026-06-02 12:18:55 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Migrating schema `car_rental` to version "2 - seed sample cars"
+2026-06-02 12:18:55 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Successfully applied 2 migrations to schema `car_rental`, now at version v2 (execution time 00:00.189s)
+2026-06-02 12:18:55 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-02 12:18:55 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2026-06-02 12:18:55 [main] INFO  org.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-06-02 12:18:55 [main] INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-02 12:18:55 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-02 12:18:56 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-02 12:18:56 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 12:18:57 [main] DEBUG com.carrental.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-06-02 12:18:57 [main] INFO  org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-02 12:18:57 [main] INFO  org.springframework.security.config.annotation.authentication.configuration.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-06-02 12:18:57 [main] WARN  org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2026-06-02 12:18:57 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-02 12:18:57 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2026-06-02 12:18:58 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@95504a0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@68d07b48, org.springframework.security.web.context.SecurityContextHolderFilter@7acc95a2, org.springframework.security.web.header.HeaderWriterFilter@23bc69a1, org.springframework.web.filter.CorsFilter@2d980ff2, org.springframework.security.web.authentication.logout.LogoutFilter@2c7ddfa0, com.carrental.security.JwtAuthenticationFilter@26f0ab88, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@a83c657, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@776a3e76, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@190c2bbf, org.springframework.security.web.session.SessionManagementFilter@7af65b49, org.springframework.security.web.access.ExceptionTranslationFilter@58f6dab9, org.springframework.security.web.access.intercept.AuthorizationFilter@53365a58]
+2026-06-02 12:18:58 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-06-02 12:18:58 [main] INFO  com.carrental.CarRentalApplication - Started CarRentalApplication in 6.002 seconds (process running for 6.831)
+2026-06-02 12:18:58 [main] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id 
+    from
+        users au1_0 
+    where
+        au1_0.email=? 
+    limit
+        ?
+2026-06-02 12:18:58 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        users
+        (account_non_locked, created_at, email, enabled, full_name, password, phone, role) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2026-06-02 12:18:58 [main] INFO  com.carrental.config.AdminBootstrapConfig - Default admin user created successfully
+2026-06-02 12:18:58 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        cars c1_0
+2026-06-02 12:19:03 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-02 12:19:03 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-02 12:19:03 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-06-02 12:19:03 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.brand,
+        c1_0.city,
+        c1_0.created_at,
+        c1_0.daily_rate,
+        c1_0.description,
+        c1_0.fuel_type,
+        c1_0.image_url,
+        c1_0.license_plate,
+        c1_0.manufacture_year,
+        c1_0.model,
+        c1_0.seats,
+        c1_0.status,
+        c1_0.transmission,
+        c1_0.updated_at,
+        c1_0.vehicle_type,
+        c1_0.version 
+    from
+        cars c1_0 
+    where
+        c1_0.status=? 
+    order by
+        c1_0.created_at desc 
+    limit
+        ?, ?
+2026-06-02 12:19:03 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        count(c1_0.id) 
+    from
+        cars c1_0 
+    where
+        c1_0.status=?
+2026-06-02 12:19:03 [http-nio-8080-exec-4] WARN  org.springframework.data.web.config.SpringDataJacksonConfiguration$PageModule$PlainPageSerializationWarning - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-02 12:19:39 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:19:39 [http-nio-8080-exec-1] ERROR com.carrental.security.JwtAuthenticationFilter - Cannot set user authentication: User not found
+2026-06-02 12:31:19 [SpringApplicationShutdownHook] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 12:31:19 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-02 12:31:19 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-02 12:31:23 [main] INFO  com.carrental.CarRentalApplication - Starting CarRentalApplication using Java 21.0.10 with PID 31964 (C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes started by kaust in C:\Users\kaust\Downloads\Car_Rent\Car_Rent)
+2026-06-02 12:31:23 [main] DEBUG com.carrental.CarRentalApplication - Running with Spring Boot v3.3.0, Spring v6.1.8
+2026-06-02 12:31:23 [main] INFO  com.carrental.CarRentalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-02 12:31:24 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-02 12:31:24 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 64 ms. Found 4 JPA repository interfaces.
+2026-06-02 12:31:25 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-06-02 12:31:25 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-02 12:31:25 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-06-02 12:31:25 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-06-02 12:31:25 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1656 ms
+2026-06-02 12:31:25 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-02 12:31:25 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@49122853
+2026-06-02 12:31:25 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-02 12:31:25 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:mysql://localhost:3306/car_rental (MySQL 8.0)
+2026-06-02 12:31:25 [main] INFO  org.flywaydb.core.internal.command.DbValidate - Successfully validated 2 migrations (execution time 00:00.034s)
+2026-06-02 12:31:25 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Current version of schema `car_rental`: 2
+2026-06-02 12:31:25 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Schema `car_rental` is up to date. No migration necessary.
+2026-06-02 12:31:25 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-02 12:31:25 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2026-06-02 12:31:25 [main] INFO  org.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-06-02 12:31:26 [main] INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-02 12:31:26 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-02 12:31:27 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-02 12:31:27 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 12:31:27 [main] DEBUG com.carrental.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-06-02 12:31:27 [main] INFO  org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-02 12:31:28 [main] INFO  org.springframework.security.config.annotation.authentication.configuration.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-06-02 12:31:28 [main] WARN  org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2026-06-02 12:31:28 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-02 12:31:28 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2026-06-02 12:31:28 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@48c74c4f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1f32fb77, org.springframework.security.web.context.SecurityContextHolderFilter@2dfde704, org.springframework.security.web.header.HeaderWriterFilter@3bf47d1e, org.springframework.web.filter.CorsFilter@d95150c, org.springframework.security.web.authentication.logout.LogoutFilter@2202eee0, com.carrental.security.JwtAuthenticationFilter@755057c7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@31809f2b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@584d9b19, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@32f53573, org.springframework.security.web.session.SessionManagementFilter@418b3215, org.springframework.security.web.access.ExceptionTranslationFilter@5a9bb7dd, org.springframework.security.web.access.intercept.AuthorizationFilter@4843fc3c]
+2026-06-02 12:31:28 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-06-02 12:31:28 [main] INFO  com.carrental.CarRentalApplication - Started CarRentalApplication in 5.911 seconds (process running for 6.779)
+2026-06-02 12:31:28 [main] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id 
+    from
+        users au1_0 
+    where
+        au1_0.email=? 
+    limit
+        ?
+2026-06-02 12:31:28 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        cars c1_0
+2026-06-02 12:31:42 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-02 12:31:42 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-02 12:31:42 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-06-02 12:31:42 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.brand,
+        c1_0.city,
+        c1_0.created_at,
+        c1_0.daily_rate,
+        c1_0.description,
+        c1_0.fuel_type,
+        c1_0.image_url,
+        c1_0.license_plate,
+        c1_0.manufacture_year,
+        c1_0.model,
+        c1_0.seats,
+        c1_0.status,
+        c1_0.transmission,
+        c1_0.updated_at,
+        c1_0.vehicle_type,
+        c1_0.version 
+    from
+        cars c1_0 
+    where
+        c1_0.status=? 
+    order by
+        c1_0.created_at desc 
+    limit
+        ?, ?
+2026-06-02 12:31:42 [http-nio-8080-exec-3] WARN  org.springframework.data.web.config.SpringDataJacksonConfiguration$PageModule$PlainPageSerializationWarning - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-02 12:38:21 [SpringApplicationShutdownHook] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 12:38:21 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-02 12:38:21 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-02 12:38:27 [main] INFO  com.carrental.CarRentalApplication - Starting CarRentalApplication using Java 21.0.10 with PID 23720 (C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes started by kaust in C:\Users\kaust\Downloads\Car_Rent\Car_Rent)
+2026-06-02 12:38:27 [main] DEBUG com.carrental.CarRentalApplication - Running with Spring Boot v3.3.0, Spring v6.1.8
+2026-06-02 12:38:27 [main] INFO  com.carrental.CarRentalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-02 12:38:28 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-02 12:38:28 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 88 ms. Found 4 JPA repository interfaces.
+2026-06-02 12:38:29 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-06-02 12:38:29 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-02 12:38:29 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-06-02 12:38:29 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-06-02 12:38:29 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1720 ms
+2026-06-02 12:38:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-02 12:38:29 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@31693a86
+2026-06-02 12:38:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-02 12:38:29 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:mysql://localhost:3306/car_rental (MySQL 8.0)
+2026-06-02 12:38:29 [main] INFO  org.flywaydb.core.internal.command.DbValidate - Successfully validated 2 migrations (execution time 00:00.036s)
+2026-06-02 12:38:29 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Current version of schema `car_rental`: 2
+2026-06-02 12:38:29 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Schema `car_rental` is up to date. No migration necessary.
+2026-06-02 12:38:30 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-02 12:38:30 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2026-06-02 12:38:30 [main] INFO  org.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-06-02 12:38:30 [main] INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-02 12:38:30 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-02 12:38:31 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-02 12:38:31 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 12:38:32 [main] DEBUG com.carrental.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-06-02 12:38:32 [main] INFO  org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-02 12:38:32 [main] INFO  org.springframework.security.config.annotation.authentication.configuration.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-06-02 12:38:32 [main] WARN  org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2026-06-02 12:38:32 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-02 12:38:32 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2026-06-02 12:38:33 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7e9074b2, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6cf2b638, org.springframework.security.web.context.SecurityContextHolderFilter@30f1a181, org.springframework.security.web.header.HeaderWriterFilter@4374c46e, org.springframework.web.filter.CorsFilter@1653cc95, org.springframework.security.web.authentication.logout.LogoutFilter@38f2c6a0, com.carrental.security.JwtAuthenticationFilter@33c5e52f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1ad27a73, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2202eee0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@68212585, org.springframework.security.web.session.SessionManagementFilter@39a4bd89, org.springframework.security.web.access.ExceptionTranslationFilter@281edf6b, org.springframework.security.web.access.intercept.AuthorizationFilter@6a5f05f5]
+2026-06-02 12:38:33 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-06-02 12:38:33 [main] INFO  com.carrental.CarRentalApplication - Started CarRentalApplication in 6.292 seconds (process running for 7.104)
+2026-06-02 12:38:33 [main] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id 
+    from
+        users au1_0 
+    where
+        au1_0.email=? 
+    limit
+        ?
+2026-06-02 12:38:33 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        cars c1_0
+2026-06-02 12:38:42 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-02 12:38:42 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-02 12:38:42 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-06-02 12:38:42 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.brand,
+        c1_0.city,
+        c1_0.created_at,
+        c1_0.daily_rate,
+        c1_0.description,
+        c1_0.fuel_type,
+        c1_0.image_url,
+        c1_0.license_plate,
+        c1_0.manufacture_year,
+        c1_0.model,
+        c1_0.seats,
+        c1_0.status,
+        c1_0.transmission,
+        c1_0.updated_at,
+        c1_0.vehicle_type,
+        c1_0.version 
+    from
+        cars c1_0 
+    where
+        c1_0.status=? 
+    order by
+        c1_0.created_at desc 
+    limit
+        ?, ?
+2026-06-02 12:38:42 [http-nio-8080-exec-3] WARN  org.springframework.data.web.config.SpringDataJacksonConfiguration$PageModule$PlainPageSerializationWarning - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-02 12:39:10 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:39:10 [http-nio-8080-exec-5] ERROR com.carrental.security.JwtAuthenticationFilter - Cannot set user authentication: User not found
+2026-06-02 12:39:19 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:39:19 [http-nio-8080-exec-6] ERROR com.carrental.security.JwtAuthenticationFilter - Cannot set user authentication: User not found
+2026-06-02 12:39:32 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:39:32 [http-nio-8080-exec-7] ERROR com.carrental.security.JwtAuthenticationFilter - Cannot set user authentication: User not found
+2026-06-02 12:45:29 [SpringApplicationShutdownHook] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 12:45:29 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-02 12:45:30 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-02 12:45:35 [main] INFO  com.carrental.CarRentalApplication - Starting CarRentalApplication using Java 21.0.10 with PID 228 (C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes started by kaust in C:\Users\kaust\Downloads\Car_Rent\Car_Rent)
+2026-06-02 12:45:35 [main] DEBUG com.carrental.CarRentalApplication - Running with Spring Boot v3.3.0, Spring v6.1.8
+2026-06-02 12:45:35 [main] INFO  com.carrental.CarRentalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-02 12:45:36 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-02 12:45:36 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 66 ms. Found 4 JPA repository interfaces.
+2026-06-02 12:45:37 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-06-02 12:45:37 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-02 12:45:37 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-06-02 12:45:37 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-06-02 12:45:37 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1989 ms
+2026-06-02 12:45:37 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-02 12:45:38 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6f8ac8d5
+2026-06-02 12:45:38 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-02 12:45:38 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:mysql://localhost:3306/car_rental (MySQL 8.0)
+2026-06-02 12:45:38 [main] INFO  org.flywaydb.core.internal.command.DbValidate - Successfully validated 2 migrations (execution time 00:00.037s)
+2026-06-02 12:45:38 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Current version of schema `car_rental`: 2
+2026-06-02 12:45:38 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Schema `car_rental` is up to date. No migration necessary.
+2026-06-02 12:45:38 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-02 12:45:38 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2026-06-02 12:45:38 [main] INFO  org.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-06-02 12:45:38 [main] INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-02 12:45:38 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-02 12:45:39 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-02 12:45:39 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 12:45:40 [main] DEBUG com.carrental.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-06-02 12:45:40 [main] INFO  org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-02 12:45:40 [main] INFO  org.springframework.security.config.annotation.authentication.configuration.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-06-02 12:45:40 [main] WARN  org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2026-06-02 12:45:40 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-02 12:45:40 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2026-06-02 12:45:41 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@25ca56de, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@b234301, org.springframework.security.web.context.SecurityContextHolderFilter@2eef2fd6, org.springframework.security.web.header.HeaderWriterFilter@2dfde704, org.springframework.web.filter.CorsFilter@47fb7dbb, org.springframework.security.web.authentication.logout.LogoutFilter@93370c5, com.carrental.security.JwtAuthenticationFilter@321bf4b1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2f3809cf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@604125bd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6c88026b, org.springframework.security.web.session.SessionManagementFilter@281edf6b, org.springframework.security.web.access.ExceptionTranslationFilter@58fb9020, org.springframework.security.web.access.intercept.AuthorizationFilter@38f2c6a0]
+2026-06-02 12:45:41 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-06-02 12:45:41 [main] INFO  com.carrental.CarRentalApplication - Started CarRentalApplication in 6.574 seconds (process running for 7.49)
+2026-06-02 12:45:41 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        cars c1_0
+2026-06-02 12:45:41 [main] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id 
+    from
+        users au1_0 
+    where
+        au1_0.email=? 
+    limit
+        ?
+2026-06-02 12:45:51 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-02 12:45:51 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-02 12:45:51 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 5 ms
+2026-06-02 12:46:07 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:46:07 [http-nio-8080-exec-2] ERROR com.carrental.security.JwtAuthenticationFilter - Cannot set user authentication: User not found
+2026-06-02 12:48:17 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.brand,
+        c1_0.city,
+        c1_0.created_at,
+        c1_0.daily_rate,
+        c1_0.description,
+        c1_0.fuel_type,
+        c1_0.image_url,
+        c1_0.license_plate,
+        c1_0.manufacture_year,
+        c1_0.model,
+        c1_0.seats,
+        c1_0.status,
+        c1_0.transmission,
+        c1_0.updated_at,
+        c1_0.vehicle_type,
+        c1_0.version 
+    from
+        cars c1_0 
+    where
+        c1_0.status=? 
+    order by
+        c1_0.created_at desc 
+    limit
+        ?, ?
+2026-06-02 12:48:17 [http-nio-8080-exec-8] WARN  org.springframework.data.web.config.SpringDataJacksonConfiguration$PageModule$PlainPageSerializationWarning - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-02 12:48:34 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:48:39 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:51:03 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id 
+    from
+        users au1_0 
+    where
+        au1_0.email=? 
+    limit
+        ?
+2026-06-02 12:51:03 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        users
+        (account_non_locked, created_at, email, enabled, full_name, password, phone, role) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2026-06-02 12:51:03 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        refresh_tokens
+        (expiry_date, revoked, token, user_id) 
+    values
+        (?, ?, ?, ?)
+2026-06-02 12:51:08 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:51:08 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:51:08 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        refresh_tokens
+        (expiry_date, revoked, token, user_id) 
+    values
+        (?, ?, ?, ?)
+2026-06-02 12:51:08 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:51:08 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:51:08 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.cancellation_reason,
+        b1_0.cancelled_at,
+        b1_0.car_id,
+        b1_0.created_at,
+        b1_0.end_at,
+        b1_0.start_at,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        bookings b1_0 
+    where
+        b1_0.user_id=? 
+    order by
+        b1_0.created_at desc
+2026-06-02 12:51:08 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.brand,
+        c1_0.city,
+        c1_0.created_at,
+        c1_0.daily_rate,
+        c1_0.description,
+        c1_0.fuel_type,
+        c1_0.image_url,
+        c1_0.license_plate,
+        c1_0.manufacture_year,
+        c1_0.model,
+        c1_0.seats,
+        c1_0.status,
+        c1_0.transmission,
+        c1_0.updated_at,
+        c1_0.vehicle_type,
+        c1_0.version 
+    from
+        cars c1_0 
+    where
+        c1_0.status=? 
+    order by
+        c1_0.created_at desc 
+    limit
+        ?, ?
+2026-06-02 12:51:08 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:51:08 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 12:51:08 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.cancellation_reason,
+        b1_0.cancelled_at,
+        b1_0.car_id,
+        b1_0.created_at,
+        b1_0.end_at,
+        b1_0.start_at,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        bookings b1_0 
+    where
+        b1_0.user_id=? 
+    order by
+        b1_0.created_at desc
+2026-06-02 12:54:55 [SpringApplicationShutdownHook] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 12:54:55 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-02 12:54:55 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-02 12:54:59 [main] INFO  com.carrental.CarRentalApplication - Starting CarRentalApplication using Java 21.0.10 with PID 37792 (C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes started by kaust in C:\Users\kaust\Downloads\Car_Rent\Car_Rent)
+2026-06-02 12:54:59 [main] DEBUG com.carrental.CarRentalApplication - Running with Spring Boot v3.3.0, Spring v6.1.8
+2026-06-02 12:54:59 [main] INFO  com.carrental.CarRentalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-02 12:55:00 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-02 12:55:00 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 62 ms. Found 4 JPA repository interfaces.
+2026-06-02 12:55:00 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-06-02 12:55:00 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-02 12:55:00 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-06-02 12:55:01 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-06-02 12:55:01 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1596 ms
+2026-06-02 12:55:01 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-02 12:55:01 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@40b31a16
+2026-06-02 12:55:01 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-02 12:55:01 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:mysql://localhost:3306/car_rental (MySQL 8.0)
+2026-06-02 12:55:01 [main] INFO  org.flywaydb.core.internal.command.DbValidate - Successfully validated 2 migrations (execution time 00:00.033s)
+2026-06-02 12:55:01 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Current version of schema `car_rental`: 2
+2026-06-02 12:55:01 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Schema `car_rental` is up to date. No migration necessary.
+2026-06-02 12:55:01 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-02 12:55:01 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2026-06-02 12:55:01 [main] INFO  org.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-06-02 12:55:02 [main] INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-02 12:55:02 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-02 12:55:03 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-02 12:55:03 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 12:55:03 [main] DEBUG com.carrental.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-06-02 12:55:03 [main] INFO  org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-02 12:55:03 [main] INFO  org.springframework.security.config.annotation.authentication.configuration.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-06-02 12:55:03 [main] WARN  org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2026-06-02 12:55:04 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-02 12:55:04 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2026-06-02 12:55:04 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1b03d582, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@aa9b6a8, org.springframework.security.web.context.SecurityContextHolderFilter@1d4cf8ea, org.springframework.security.web.header.HeaderWriterFilter@1a445b5, org.springframework.web.filter.CorsFilter@162304e3, org.springframework.security.web.authentication.logout.LogoutFilter@d95150c, com.carrental.security.JwtAuthenticationFilter@365291bd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2094869b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@30f1a181, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3a94d716, org.springframework.security.web.session.SessionManagementFilter@705448e7, org.springframework.security.web.access.ExceptionTranslationFilter@31809f2b, org.springframework.security.web.access.intercept.AuthorizationFilter@b234301]
+2026-06-02 12:55:04 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-06-02 12:55:04 [main] INFO  com.carrental.CarRentalApplication - Started CarRentalApplication in 5.798 seconds (process running for 6.686)
+2026-06-02 12:55:04 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        cars c1_0
+2026-06-02 12:55:04 [main] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id 
+    from
+        users au1_0 
+    where
+        au1_0.email=? 
+    limit
+        ?
+2026-06-02 12:55:09 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-02 12:55:09 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-02 12:55:09 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-06-02 12:55:10 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.brand,
+        c1_0.city,
+        c1_0.created_at,
+        c1_0.daily_rate,
+        c1_0.description,
+        c1_0.fuel_type,
+        c1_0.image_url,
+        c1_0.license_plate,
+        c1_0.manufacture_year,
+        c1_0.model,
+        c1_0.seats,
+        c1_0.status,
+        c1_0.transmission,
+        c1_0.updated_at,
+        c1_0.vehicle_type,
+        c1_0.version 
+    from
+        cars c1_0 
+    where
+        c1_0.status=? 
+    order by
+        c1_0.created_at desc 
+    limit
+        ?, ?
+2026-06-02 12:55:10 [http-nio-8080-exec-4] WARN  org.springframework.data.web.config.SpringDataJacksonConfiguration$PageModule$PlainPageSerializationWarning - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-02 12:58:45 [SpringApplicationShutdownHook] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 12:58:45 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-02 12:58:45 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

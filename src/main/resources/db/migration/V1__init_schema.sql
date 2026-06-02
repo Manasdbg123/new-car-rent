@@ -14,6 +14,7 @@ create table users (
 
 create table cars (
                       id bigint primary key auto_increment,
+                      vehicle_type varchar(30) not null default 'CAR',
                       brand varchar(80) not null,
                       model varchar(80) not null,
                       manufacture_year integer not null,

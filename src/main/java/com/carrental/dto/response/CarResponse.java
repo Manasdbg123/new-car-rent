@@ -30,4 +30,15 @@ public class CarResponse {
 	private String description;
 	private String status;
 	private LocalDateTime createdAt;
+	// Add this variable near the top with the others
+	private String vehicleType;
+
+	// Add these getters and setters at the bottom
+	public String getVehicleType() {
+		return vehicleType;
+	}
+
+	public void setVehicleType(String vehicleType) {
+		this.vehicleType = vehicleType;
+	}
 }

@@ -17,6 +17,7 @@ public class CarMapper {
 
 		return CarResponse.builder()
 				.id(car.getId())
+				.vehicleType(car.getVehicleType()) // <-- ADDED HERE inside the builder
 				.brand(car.getBrand())
 				.model(car.getModel())
 				.manufactureYear(car.getManufactureYear())
@@ -78,5 +79,7 @@ public class CarMapper {
 		if (request.getStatus() != null) {
 			car.setStatus(CarStatus.valueOf(request.getStatus().toUpperCase()));
 		}
+
+		// Removed the erroneous line that was causing errors here
 	}
 }

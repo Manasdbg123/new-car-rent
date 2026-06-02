@@ -25,6 +25,9 @@ public class Car {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "vehicle_type", nullable = false, length = 30)
+	private String vehicleType; // "CAR" or "BIKE"
+
 	@Column(nullable = false, length = 80)
 	private String brand;
 
@@ -52,7 +55,6 @@ public class Car {
 	@Column(nullable = false, length = 60)
 	private String city;
 
-	// Note: Ensuring imageUrl exists so your frontend images continue to load
 	@Column(name = "image_url", length = 1000)
 	private String imageUrl;
 
@@ -85,139 +87,57 @@ public class Car {
 	// EXPLICIT GETTERS & SETTERS (LOMBOK BYPASS)
 	// ==========================================
 
-	public Long getId() {
-		return id;
-	}
+	public Long getId() { return id; }
+	public void setId(Long id) { this.id = id; }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+	public String getVehicleType() { return vehicleType; }
+	public void setVehicleType(String vehicleType) { this.vehicleType = vehicleType; }
 
-	public String getBrand() {
-		return brand;
-	}
+	public String getBrand() { return brand; }
+	public void setBrand(String brand) { this.brand = brand; }
 
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
+	public String getModel() { return model; }
+	public void setModel(String model) { this.model = model; }
 
-	public String getModel() {
-		return model;
-	}
+	public Integer getManufactureYear() { return manufactureYear; }
+	public void setManufactureYear(Integer manufactureYear) { this.manufactureYear = manufactureYear; }
 
-	public void setModel(String model) {
-		this.model = model;
-	}
+	public String getLicensePlate() { return licensePlate; }
+	public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
 
-	public Integer getManufactureYear() {
-		return manufactureYear;
-	}
+	public BigDecimal getDailyRate() { return dailyRate; }
+	public void setDailyRate(BigDecimal dailyRate) { this.dailyRate = dailyRate; }
 
-	public void setManufactureYear(Integer manufactureYear) {
-		this.manufactureYear = manufactureYear;
-	}
+	public Integer getSeats() { return seats; }
+	public void setSeats(Integer seats) { this.seats = seats; }
 
-	public String getLicensePlate() {
-		return licensePlate;
-	}
+	public String getFuelType() { return fuelType; }
+	public void setFuelType(String fuelType) { this.fuelType = fuelType; }
 
-	public void setLicensePlate(String licensePlate) {
-		this.licensePlate = licensePlate;
-	}
+	public String getTransmission() { return transmission; }
+	public void setTransmission(String transmission) { this.transmission = transmission; }
 
-	public BigDecimal getDailyRate() {
-		return dailyRate;
-	}
+	public String getCity() { return city; }
+	public void setCity(String city) { this.city = city; }
 
-	public void setDailyRate(BigDecimal dailyRate) {
-		this.dailyRate = dailyRate;
-	}
+	public String getImageUrl() { return imageUrl; }
+	public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
-	public Integer getSeats() {
-		return seats;
-	}
+	public String getDescription() { return description; }
+	public void setDescription(String description) { this.description = description; }
 
-	public void setSeats(Integer seats) {
-		this.seats = seats;
-	}
+	public CarStatus getStatus() { return status; }
+	public void setStatus(CarStatus status) { this.status = status; }
 
-	public String getFuelType() {
-		return fuelType;
-	}
+	public Long getVersion() { return version; }
+	public void setVersion(Long version) { this.version = version; }
 
-	public void setFuelType(String fuelType) {
-		this.fuelType = fuelType;
-	}
+	public List<Booking> getBookings() { return bookings; }
+	public void setBookings(List<Booking> bookings) { this.bookings = bookings; }
 
-	public String getTransmission() {
-		return transmission;
-	}
+	public LocalDateTime getCreatedAt() { return createdAt; }
+	public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-	public void setTransmission(String transmission) {
-		this.transmission = transmission;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public CarStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(CarStatus status) {
-		this.status = status;
-	}
-
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
-	}
-
-	public List<Booking> getBookings() {
-		return bookings;
-	}
-
-	public void setBookings(List<Booking> bookings) {
-		this.bookings = bookings;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+	public LocalDateTime getUpdatedAt() { return updatedAt; }
+	public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }

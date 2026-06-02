@@ -3,19 +3,115 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>DriveX - Premium Vehicle Rental</title>
-	<link rel="stylesheet" href="/css/style.css">
+	<title>DriveX - Global Vehicle Rental</title>
+	<style>
+		/* BASE & TYPOGRAPHY FIXES */
+		body { margin: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7f6; color: #333; }
+
+		/* NAVBAR FIXES */
+		.navbar { background-color: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+		.logo { color: #0056b3; font-weight: 900; font-size: 1.8rem; text-decoration: none; }
+		.nav-links a { color: #444; text-decoration: none; margin: 0 15px; font-weight: 600; transition: color 0.3s; }
+		.nav-links a:hover, .nav-links a.active { color: #0056b3; }
+
+		/* BUTTONS */
+		.btn { padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; border: none; text-align: center; text-decoration: none; display: inline-block; }
+		.primary-btn { background-color: #0056b3; color: #ffffff !important; }
+		.primary-btn:hover { background-color: #004494; }
+		.login-btn { background-color: transparent; border: 2px solid #0056b3 !important; color: #0056b3 !important; margin-right: 10px;}
+		.login-btn:hover { background-color: #0056b3; color: #fff !important; }
+		.register-btn { background-color: #ffb700; color: #222 !important; }
+		.register-btn:hover { background-color: #e5a400; }
+
+		/* HERO AREA */
+		.hero { padding-top: 100px; padding-bottom: 150px; text-align: center; color: white !important; }
+		.hero h1, .hero p { color: white !important; text-shadow: 1px 1px 5px rgba(0,0,0,0.8); }
+
+		/* RENTALCARS STYLE SEARCH WIDGET */
+		.search-widget-container {
+			background: #ffb700; padding: 25px; border-radius: 12px; max-width: 950px;
+			margin: -60px auto 40px auto; position: relative; z-index: 10;
+			box-shadow: 0 15px 35px rgba(0,0,0,0.2); display: grid;
+			grid-template-columns: 1.5fr 1fr 1fr auto; gap: 20px; align-items: end;
+		}
+		.search-group { display: flex; flex-direction: column; text-align: left; }
+		.search-group label { font-weight: 800; margin-bottom: 8px; color: #222; font-size: 0.95rem; }
+		.search-group input, .search-group select { padding: 14px; border: 2px solid #fff; border-radius: 6px; font-size: 1rem; color: #333; outline: none; background: white; box-sizing: border-box; width: 100%; }
+		.search-group input:focus, .search-group select:focus { border-color: #0056b3; }
+		.search-btn-large { background: #0056b3; color: white; border: none; padding: 14px 30px; font-size: 1.1rem; border-radius: 6px; cursor: pointer; font-weight: bold; height: 50px; width: 100%; }
+		.search-btn-large:hover { background: #004494; }
+
+		/* VALUE ADD STRIP */
+		.info-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+		.info-box { background: white; padding: 20px; border-radius: 8px; border-left: 5px solid #ffb700; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+		.info-box h4 { margin: 0 0 10px 0; color: #111; font-size: 1.1rem; }
+		.info-box p { margin: 0; color: #666; font-size: 0.9rem; line-height: 1.4; }
+
+		/* DETAILED ADDITIONAL INFO SECTION (RENTALCARS STYLE) */
+		.additional-info-section { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
+		.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 25px; margin-top: 20px; }
+		.info-card { background: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+		.info-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+		.info-card-header span { font-size: 1.5rem; }
+		.info-card h3 { margin: 0; font-size: 1.3rem; color: #0056b3; }
+		.info-card ul { padding-left: 20px; margin: 0; color: #555; font-size: 0.95rem; }
+		.info-card ul li { margin-bottom: 10px; line-height: 1.4; }
+
+		/* CARD STYLING */
+		.car-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.06); transition: transform 0.3s; border: 1px solid #eaeaea; display: flex; flex-direction: column; }
+		.car-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+		.car-card img { width: 100%; height: 220px; object-fit: cover; }
+		.car-info { padding: 20px; color: #333; flex-grow: 1; display: flex; flex-direction: column; }
+		.car-info h3 { color: #111; margin-top: 0; margin-bottom: 5px;}
+
+		/* LAYOUT & STRUCTURE */
+		.section-title { text-align: center; font-size: 2.2rem; margin: 60px 0 30px; color: #222; font-weight: 800; }
+		.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 0 5%; }
+		.cars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 20px 5% 60px 5%; max-width: 1400px; margin: 0 auto;}
+		.pro-header { text-align: center; padding: 60px 20px; background: #0056b3; color: white; margin-bottom: 30px; }
+		.pro-header h1, .pro-header p { color: white !important; margin:0; padding-top:10px;}
+
+		/* ACCORDION FAQ BLOCK */
+		.faq-section { max-width: 850px; margin: 60px auto; padding: 0 20px; }
+		.faq-item { background: white; margin-bottom: 12px; border-radius: 6px; border: 1px solid #ddd; overflow: hidden; }
+		.faq-question { padding: 18px 20px; font-weight: bold; color: #222; cursor: pointer; background: #fff; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+		.faq-question:hover { background: #f9f9f9; }
+		.faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; color: #555; font-size: 0.95rem; line-height: 1.5; background: #fff; }
+		.faq-item.active .faq-answer { padding: 15px 20px 20px 20px; max-height: 200px; border-top: 1px solid #eee; }
+		.faq-icon { transition: transform 0.3s; font-weight: bold; color: #0056b3; }
+		.faq-item.active .faq-icon { transform: rotate(180deg); }
+
+		/* MODALS */
+		.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+		.modal-content { background: #fff; padding: 30px; border-radius: 12px; color: #333; max-width: 450px; width: 90%; position: relative;}
+		.modal-content h2 { color: #111; margin-top:0; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;}
+		.modal-content input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+		.close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #666; }
+		.close-btn:hover { color: #000; }
+
+		.brands-banner { display: flex; justify-content: center; gap: 40px; padding: 30px; background: #f8f9fa; flex-wrap: wrap; border-top: 1px solid #eee; border-bottom: 1px solid #eee; opacity: 0.7;}
+		.brands-banner h3 { margin: 0; color: #555; font-size: 1.5rem; }
+		.reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px 5%; max-width: 1200px; margin: 0 auto;}
+		.review-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eee; }
+		.stars { color: #ffb700; font-size: 1.2rem; margin-bottom: 10px; }
+
+		footer { text-align: center; padding: 30px; background: #222; color: #aaa; margin-top: 50px; }
+
+		@media (max-width: 768px) {
+			.search-widget-container { grid-template-columns: 1fr; margin-top: 20px; }
+			.nav-links { display: none; }
+		}
+	</style>
 </head>
 <body>
 
 <nav class="navbar">
-	<div class="logo">🚘 DriveX</div>
+	<div class="logo">DriveX</div>
 	<div class="nav-links">
 		<a href="#home" class="nav-item">Home</a>
 		<a href="#cars" class="nav-item">Cars</a>
 		<a href="#bikes" class="nav-item">Bikes</a>
-		<a href="#about" class="nav-item">About Us</a>
-		<a href="#contact" class="nav-item">Contact</a>
+		<a href="#dashboard" class="nav-item">Manage Booking</a>
 	</div>
 	<div class="auth-buttons" id="authButtons"></div>
 </nav>
@@ -23,136 +119,201 @@
 <main id="app-content">
 
 	<section id="home-view" class="page-view">
-		<div class="hero">
+		<div class="hero" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
 			<div class="hero-content">
-				<h1>Premium Cars & Bikes<br>For Every Journey</h1>
-				<p>Luxury rentals made simple, secure, and fast.</p>
-				<div class="hero-buttons">
-					<a href="#cars" class="btn primary-btn" style="text-decoration:none;">Explore Cars</a>
-					<a href="#bikes" class="btn primary-btn" style="text-decoration:none; background: transparent; border: 2px solid white;">Explore Bikes</a>
+				<h1 style="font-size: 3.5rem; margin-bottom: 10px;">Car & Bike Hire – Search, Compare & Save</h1>
+				<p style="font-size: 1.2rem; font-weight: 300;">Free cancellations on most bookings • 72+ Vehicles • 6 Major Cities</p>
+			</div>
+		</div>
+
+		<form class="search-widget-container" onsubmit="event.preventDefault(); window.executeHeroSearch();">
+			<div class="search-group">
+				<label>Pick-up Location</label>
+				<select id="heroLocation">
+					<option value="Bangalore">Bangalore</option>
+					<option value="Hyderabad">Hyderabad</option>
+					<option value="Delhi">Delhi</option>
+					<option value="Mumbai">Mumbai</option>
+					<option value="Chennai">Chennai</option>
+					<option value="Pune">Pune</option>
+				</select>
+			</div>
+			<div class="search-group">
+				<label>Vehicle Type</label>
+				<select id="heroType">
+					<option value="cars">Cars</option>
+					<option value="bikes">Bikes</option>
+				</select>
+			</div>
+			<div class="search-group">
+				<label>Pick-up Date</label>
+				<input type="date" required>
+			</div>
+			<button type="submit" class="search-btn-large" id="btnSearchHero">Search</button>
+		</form>
+
+		<div class="info-strip">
+			<div class="info-box">
+				<h4>Flexible Rentals</h4>
+				<p>Cancel or amend your vehicle reservation online quickly and easily up to 48 hours before pick-up.</p>
+			</div>
+			<div class="info-box">
+				<h4>No Hidden Fees</h4>
+				<p>Know exactly what you're paying for. Transparent breakdown of daily rates, taxes, and service parameters.</p>
+			</div>
+			<div class="info-box">
+				<h4>Clean & Safe Fleet</h4>
+				<p>All cars and bikes undergo deep cleaning sanitization standards prior to every user handover.</p>
+			</div>
+			<div class="info-box">
+				<h4>24/7 Roadside Help</h4>
+				<p>Drive with peace of mind. Our dedicated execution support grid is available round-the-clock.</p>
+			</div>
+		</div>
+
+		<div class="additional-info-section">
+			<h2 class="section-title">Important Rental Information</h2>
+			<div class="info-grid">
+				<div class="info-card">
+					<div class="info-card-header"><span>🛡️</span><h3>What's Included in Your Rate</h3></div>
+					<ul>
+						<li><strong>Collision Damage Waiver (CDW):</strong> Covers major accidental damages to the chassis body framework.</li>
+						<li><strong>Third-Party Liability (TPL):</strong> Full compliance legal coverage matching municipal traffic protocols.</li>
+						<li><strong>Fair Mileage Policy:</strong> All standard options include full unlimited mileage access paths.</li>
+					</ul>
+				</div>
+				<div class="info-card">
+					<div class="info-card-header"><span>📋</span><h3>Requirements For Verification</h3></div>
+					<ul>
+						<li><strong>Driver's License:</strong> Must hold a valid, original state-issued license for at least 1 full year.</li>
+						<li><strong>Identification:</strong> Matching government documentation photo asset profiles (Aadhaar/Passport).</li>
+						<li><strong>Security Deposit:</strong> Held temporarily on authorization methods during physical deployment handovers.</li>
+					</ul>
+				</div>
+				<div class="info-card">
+					<div class="info-card-header"><span>⛽</span><h3>Fuel & Handover Regulations</h3></div>
+					<ul>
+						<li><strong>Like-for-Like Fuel Policy:</strong> Return the vehicle with the equivalent asset tank levels as delivered.</li>
+						<li><strong>Grace Handover Window:</strong> Standard reservations allow a maximum 29-minute logistics return delay buffer.</li>
+						<li><strong>Inter-City Drops:</strong> Requires explicit customer configuration flags prior to dispatch management.</li>
+					</ul>
 				</div>
 			</div>
+		</div>
+
+		<div class="brands-banner">
+			<h3>BMW</h3><h3>Mercedes</h3><h3>Audi</h3><h3>Royal Enfield</h3><h3>Porsche</h3><h3>KTM</h3>
 		</div>
 
 		<div class="content-section">
-			<h2>How It Works</h2>
+			<h2 class="section-title">Popular Destinations in India</h2>
 			<div class="grid-3">
-				<div class="step-card">
-					<div class="step-icon">📍</div>
-					<h3>1. Select City & Vehicle</h3>
-					<p>Choose your city and browse our extensive collection of premium cars and superbikes.</p>
+				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Mumbai', 'cars')">
+					<img src="https://images.unsplash.com/photo-1522206090940-025a1e2f38cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" style="width:100%; height:200px; object-fit:cover;" alt="Mumbai">
+					<h3 style="padding: 15px; margin:0;">Mumbai (Cars & Bikes)</h3>
 				</div>
-				<div class="step-card">
-					<div class="step-icon">📅</div>
-					<h3>2. Choose Dates</h3>
-					<p>Select your pickup and return dates. Our system ensures real-time availability.</p>
+				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Delhi', 'cars')">
+					<img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" style="width:100%; height:200px; object-fit:cover;" alt="Delhi">
+					<h3 style="padding: 15px; margin:0;">Delhi (Cars & Bikes)</h3>
 				</div>
-				<div class="step-card">
-					<div class="step-icon">🔑</div>
-					<h3>3. Drive Away</h3>
-					<p>Complete your secure booking and pick up your keys. It's that simple.</p>
+				<div class="step-card" style="padding: 0; overflow: hidden; border-radius: 8px; cursor:pointer; background:white; border: 1px solid #eee;" onclick="executeHeroSearch('Bangalore', 'bikes')">
+					<img src="https://images.unsplash.com/photo-1596176530529-78163a4f7af2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" style="width:100%; height:200px; object-fit:cover;" alt="Bangalore">
+					<h3 style="padding: 15px; margin:0;">Bangalore (Bikes Focus)</h3>
 				</div>
 			</div>
 		</div>
 
-		<div class="content-section alt-bg">
-			<h2>Why Choose DriveX?</h2>
-			<div class="grid-3">
-				<div class="feature-card">
-					<h3 style="color:#007bff;">Top Quality Fleet</h3>
-					<p>Every vehicle is meticulously maintained and sanitized before handoff.</p>
+		<div class="faq-section">
+			<h2 class="section-title">Frequently Asked Questions</h2>
+
+			<div class="faq-item">
+				<div class="faq-question" onclick="toggleFaq(this)">What do I need to rent a car or bike? <span class="faq-icon">▼</span></div>
+				<div class="faq-answer">To book a vehicle, you need a valid Aadhaar card/Passport, a regular active driver's license matching the target vehicle framework (2-wheeler or 4-wheeler), and an authorized secure payment method profile.</div>
+			</div>
+
+			<div class="faq-item">
+				<div class="faq-question" onclick="toggleFaq(this)">Am I old enough to hire a vehicle? <span class="faq-icon">▼</span></div>
+				<div class="faq-answer">For standard commuter cars and bikes, the minimum driver authorization age threshold is 21 years old. For premium luxury categories (BMW, Mercedes, Superbikes), renters must be at least 25 years old.</div>
+			</div>
+
+			<div class="faq-item">
+				<div class="faq-question" onclick="toggleFaq(this)">Are all fees included in the deployment cost? <span class="faq-icon">▼</span></div>
+				<div class="faq-answer">Yes, our basic daily rate calculation grid covers vehicle deployment, basic third-party platform insurance matching local regulations, and value-added tax profiles. Fuel costs are managed based on pickup levels.</div>
+			</div>
+
+			<div class="faq-item">
+				<div class="faq-question" onclick="toggleFaq(this)">Can I book a rental for someone else? <span class="faq-icon">▼</span></div>
+				<div class="faq-answer">Yes, provided that you input their full legal identity profile data during the reservation processing screen. The primary operator must present their own original matching documentation upon logistics handover execution.</div>
+			</div>
+		</div>
+
+		<div class="content-section alt-bg" style="background:#f8f9fa; padding: 40px 0 60px 0; border-top: 1px solid #eee; margin-top: 40px;">
+			<h2 class="section-title">What Our Customers Say</h2>
+			<div class="reviews-grid">
+				<div class="review-card">
+					<div class="stars">★★★★★</div>
+					<p>"Easiest booking process I've ever experienced. Rented a Mercedes in Delhi, car was spotless and right on time."</p>
+					<strong>- Amit S.</strong>
 				</div>
-				<div class="feature-card">
-					<h3 style="color:#007bff;">No Hidden Fees</h3>
-					<p>Transparent pricing. What you see is exactly what you pay.</p>
+				<div class="review-card">
+					<div class="stars">★★★★★</div>
+					<p>"The bike rental feature is a lifesaver. Took a Royal Enfield from Bangalore to Coorg. Zero hassles."</p>
+					<strong>- Priya M.</strong>
 				</div>
-				<div class="feature-card">
-					<h3 style="color:#007bff;">24/7 Support</h3>
-					<p>Our dedicated roadside assistance and concierge team is always on call.</p>
+				<div class="review-card">
+					<div class="stars">★★★★☆</div>
+					<p>"Great selection of cars in Mumbai. Customer support was quick to respond when I needed to extend my dates."</p>
+					<strong>- Rohan D.</strong>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<section id="cars-view" class="page-view">
+	<section id="cars-view" class="page-view" style="display:none;">
 		<div class="pro-header">
-			<h1>Our Premium Car Fleet</h1>
-			<p>Choose from our wide selection of luxury and performance vehicles.</p>
+			<h1>Compare Car Rentals</h1>
+			<p>Find the best daily rates across 6 major cities.</p>
 		</div>
-
-		<div class="filter-bar">
-			<label for="cityFilter">📍 Filter by City:</label>
-			<select id="cityFilter" onchange="filterCarsByCity(this.value)">
-				<option value="all">Loading cities...</option>
+		<div class="filter-bar" style="max-width:1400px; margin:20px auto; display:flex; gap:15px; padding: 0 5%;">
+			<select id="carCityFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer;">
+				<option value="all">All Locations</option>
+			</select>
+			<select id="carSortFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer;">
+				<option value="asc">Price: Low to High</option>
+				<option value="desc">Price: High to Low</option>
 			</select>
 		</div>
-
 		<div class="cars-section">
 			<div class="cars-grid" id="carList"></div>
 		</div>
 	</section>
 
-	<section id="bikes-view" class="page-view">
-		<div class="pro-header" style="background: linear-gradient(to right, #2a2a2a, #4a4a4a);">
-			<h1>Superbikes & Cruisers</h1>
-			<p>Experience the thrill of the open road on two wheels.</p>
+	<section id="bikes-view" class="page-view" style="display:none;">
+		<div class="pro-header" style="background: linear-gradient(to right, #1a1a1a, #333);">
+			<h1>Superbikes & Commuters</h1>
+			<p>Two wheels move the soul. Book instantly.</p>
+		</div>
+		<div class="filter-bar" style="max-width:1400px; margin:20px auto; display:flex; gap:15px; padding: 0 5%;">
+			<select id="bikeCityFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer;">
+				<option value="all">All Locations</option>
+			</select>
+			<select id="bikeSortFilter" onchange="filterVehicles()" style="padding:12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; outline:none; cursor:pointer;">
+				<option value="asc">Price: Low to High</option>
+				<option value="desc">Price: High to Low</option>
+			</select>
 		</div>
 		<div class="cars-section">
 			<div class="cars-grid" id="bikeList"></div>
 		</div>
 	</section>
 
-	<section id="dashboard-view" class="page-view">
+	<section id="dashboard-view" class="page-view" style="display:none;">
 		<div class="pro-header">
 			<h1>Client Dashboard</h1>
 			<p>Manage your reservations and rental history.</p>
 		</div>
 		<div class="cars-section">
-			<div class="cars-grid" id="myBookings"></div>
-		</div>
-	</section>
-
-	<section id="about-view" class="page-view">
-		<div class="pro-header">
-			<h1>About DriveX</h1>
-			<p>Redefining the luxury mobility experience since 2024.</p>
-		</div>
-		<div class="about-grid">
-			<div>
-				<h2>Our Mission</h2>
-				<p style="line-height: 1.6; color: #555;">At DriveX, we believe that the journey is just as important as the destination. We provide a seamless, fully digital platform to rent the world's most prestigious vehicles. Whether for business, leisure, or the thrill of the drive, we ensure every mile is extraordinary.</p>
-			</div>
-			<div style="display: flex; gap: 20px;">
-				<div class="step-card" style="text-align:center; width: 100%;">
-					<h3 style="font-size: 2.5rem; color:#007bff;">50+</h3>
-					<p>Premium Vehicles</p>
-				</div>
-				<div class="step-card" style="text-align:center; width: 100%;">
-					<h3 style="font-size: 2.5rem; color:#007bff;">24/7</h3>
-					<p>Concierge Support</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section id="contact-view" class="page-view">
-		<div class="pro-header">
-			<h1>Contact Us</h1>
-			<p>Our concierge team is ready to assist you.</p>
-		</div>
-		<div class="contact-grid">
-			<div class="contact-info">
-				<h2>Get in Touch</h2>
-				<p>📍 123 Luxury Lane, Bangalore, KA 560001</p>
-				<p>📞 +91 98765 43210</p>
-				<p>✉️ support@drivex.com</p>
-			</div>
-			<form class="contact-form" onsubmit="event.preventDefault(); alert('Message Sent! We will contact you shortly.');">
-				<input type="text" placeholder="Your Name" required>
-				<input type="email" placeholder="Your Email" required>
-				<textarea rows="5" placeholder="How can we help you?" required></textarea>
-				<button type="submit" class="btn primary-btn">Send Message</button>
-			</form>
+			<div class="cars-grid" id="myBookings" style="max-width:900px; margin: 0 auto; display:flex; flex-direction:column;"></div>
 		</div>
 	</section>
 
@@ -163,42 +324,71 @@
 		<span class="close-btn" id="closeLogin">&times;</span>
 		<h2>Login</h2>
 		<form id="loginForm">
-			<input type="email" id="loginEmail" placeholder="Email" required>
+			<input type="email" id="loginEmail" placeholder="Email Address" required>
 			<input type="password" id="loginPassword" placeholder="Password" required>
-			<button type="submit" class="btn primary-btn">Login</button>
+			<button type="submit" class="btn primary-btn" style="width:100%">Secure Login</button>
 		</form>
 	</div>
 </div>
+
 <div class="modal" id="registerModal">
 	<div class="modal-content">
 		<span class="close-btn" id="closeRegister">&times;</span>
 		<h2>Register</h2>
 		<form id="registerForm">
 			<input type="text" id="registerName" placeholder="Full Name" required>
-			<input type="email" id="registerEmail" placeholder="Email" required>
-			<input type="text" id="registerPhone" placeholder="Phone" required>
+			<input type="email" id="registerEmail" placeholder="Email Address" required>
+			<input type="text" id="registerPhone" placeholder="Phone Number" required>
 			<input type="password" id="registerPassword" placeholder="Password" required>
-			<button type="submit" class="btn primary-btn">Register</button>
+			<button type="submit" class="btn primary-btn" style="width:100%">Create Account</button>
 		</form>
 	</div>
 </div>
+
 <div class="modal" id="bookingModal">
 	<div class="modal-content">
 		<span class="close-btn" onclick="closeBookingModal()">&times;</span>
-		<h2 id="bookingCarName">Book Car</h2>
+		<h2 id="bookingCarName">Book Vehicle</h2>
 		<input type="hidden" id="bookingCarId">
-		<label style="display:block; text-align:left; margin-top:10px;">Pickup Time:</label>
+		<label style="display:block; text-align:left; margin-top:10px; font-weight:bold;">Pickup Date & Time:</label>
 		<input type="datetime-local" id="startDate" required>
-		<label style="display:block; text-align:left; margin-top:10px;">Return Time:</label>
+		<label style="display:block; text-align:left; margin-top:10px; font-weight:bold;">Return Date & Time:</label>
 		<input type="datetime-local" id="endDate" required>
-		<button class="btn primary-btn" onclick="confirmBooking()">Confirm Booking</button>
+		<button class="btn primary-btn" style="width:100%; margin-top:15px; height: 50px; font-size:1.1rem;" onclick="confirmBooking()">Confirm Secure Booking</button>
+	</div>
+</div>
+
+<div class="modal" id="infoModal">
+	<div class="modal-content" style="max-width: 550px;">
+		<span class="close-btn" onclick="closeInfoModal()">&times;</span>
+		<h2 id="infoModalTitle">Rental Terms & Conditions</h2>
+		<div id="infoModalBody" style="text-align: left; max-height: 400px; overflow-y: auto; padding-right: 5px;"></div>
+		<button class="btn primary-btn" style="width:100%; margin-top:20px;" onclick="closeInfoModal()">Close Conditions Window</button>
 	</div>
 </div>
 
 <footer class="footer">
-	<p>© 2026 DriveX Premium Vehicle Rental</p>
+	<p>© 2026 DriveX Global Vehicle Rental. Best Price Guarantee.</p>
 </footer>
 
 <script src="/js/app.js"></script>
+<script>
+	/* LOCAL HANDLER FOR FAQ ACCORDION TRANSITION ANIMATION */
+	function toggleFaq(element) {
+		const item = element.parentElement;
+		const isActive = item.classList.contains('active');
+
+		document.querySelectorAll('.faq-item').forEach(el => {
+			el.classList.remove('active');
+			el.querySelector('.faq-answer').style.maxHeight = null;
+		});
+
+		if (!isActive) {
+			item.classList.add('active');
+			const answer = item.querySelector('.faq-answer');
+			answer.style.maxHeight = answer.scrollHeight + "px";
+		}
+	}
+</script>
 </body>
 </html>

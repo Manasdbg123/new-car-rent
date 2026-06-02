@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.temporal.ChronoUnit;
+import java.time.Duration;
 import java.util.List;
 
 @Service
@@ -33,7 +33,6 @@ public class BookingService {
 			Long userId,
 			BookingRequest request
 	) {
-		// FIXED: Using getEndAt() and getStartAt() to match updated BookingRequest DTO
 		if (request.getEndAt().isBefore(request.getStartAt())) {
 			throw new BadRequestException("End date must be after start date");
 		}
@@ -42,9 +41,8 @@ public class BookingService {
 				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
 		Car car = carRepository.findById(request.getCarId())
-				.orElseThrow(() -> new ResourceNotFoundException("Car not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
 
-		// FIXED: Passing correct updated getter fields
 		boolean booked = bookingRepository.existsActiveBookingConflict(
 				car.getId(),
 				request.getStartAt(),
@@ -52,22 +50,24 @@ public class BookingService {
 		);
 
 		if (booked) {
-			throw new BadRequestException("Car already booked for selected dates");
+			throw new BadRequestException("Vehicle is already booked for these selected dates.");
 		}
 
-		long days = ChronoUnit.DAYS.between(
-				request.getStartAt(),
-				request.getEndAt()
-		);
+		// FIX: Calculate duration in hours, then round up to the nearest whole day.
+		long hours = Duration.between(request.getStartAt(), request.getEndAt()).toHours();
 
-		if (days <= 0) {
-			throw new BadRequestException("Booking duration must be at least 1 day");
+		if (hours < 1) {
+			throw new BadRequestException("Booking duration must be at least 1 hour.");
 		}
 
-		// FIXED: Car entity uses getDailyRate() mapped from daily_rate column
+		// Math.ceil rounds up. So 20 hours / 24.0 = 0.83 -> rounded up to 1 day.
+		long days = (long) Math.ceil(hours / 24.0);
+		if (days == 0) {
+			days = 1; // Minimum charge of 1 day
+		}
+
 		BigDecimal totalAmount = car.getDailyRate().multiply(BigDecimal.valueOf(days));
 
-		// FIXED: Booking entity builder uses startAt, endAt, and totalAmount
 		Booking booking = Booking.builder()
 				.user(user)
 				.car(car)
