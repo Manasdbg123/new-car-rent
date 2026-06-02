@@ -4080,3 +4080,127 @@ Identify and stop the process that's listening on port 8080 or configure this ap
 	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
 	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
 
+2026-06-02 14:21:07 [main] INFO  com.carrental.CarRentalApplication - Starting CarRentalApplication using Java 21.0.10 with PID 20676 (C:\Users\kaust\Downloads\Car_Rent\Car_Rent\target\classes started by kaust in C:\Users\kaust\Downloads\Car_Rent\Car_Rent)
+2026-06-02 14:21:07 [main] DEBUG com.carrental.CarRentalApplication - Running with Spring Boot v3.3.0, Spring v6.1.8
+2026-06-02 14:21:07 [main] INFO  com.carrental.CarRentalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-02 14:21:09 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-02 14:21:09 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 74 ms. Found 4 JPA repository interfaces.
+2026-06-02 14:21:09 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-06-02 14:21:09 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-02 14:21:09 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-06-02 14:21:09 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-06-02 14:21:09 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1924 ms
+2026-06-02 14:21:10 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-02 14:21:10 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2b9d4b0
+2026-06-02 14:21:10 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-02 14:21:10 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:mysql://localhost:3306/car_rental (MySQL 8.0)
+2026-06-02 14:21:10 [main] INFO  org.flywaydb.core.internal.command.DbValidate - Successfully validated 2 migrations (execution time 00:00.045s)
+2026-06-02 14:21:10 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Current version of schema `car_rental`: 2
+2026-06-02 14:21:10 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Schema `car_rental` is up to date. No migration necessary.
+2026-06-02 14:21:10 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-02 14:21:10 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2026-06-02 14:21:10 [main] INFO  org.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-06-02 14:21:11 [main] INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-02 14:21:11 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-02 14:21:12 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-02 14:21:12 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-02 14:21:13 [main] DEBUG com.carrental.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-06-02 14:21:13 [main] INFO  org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-02 14:21:14 [main] INFO  org.springframework.security.config.annotation.authentication.configuration.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-06-02 14:21:14 [main] WARN  org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2026-06-02 14:21:14 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-02 14:21:14 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2026-06-02 14:21:15 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@11e930e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5f936aad, org.springframework.security.web.context.SecurityContextHolderFilter@7538033f, org.springframework.security.web.header.HeaderWriterFilter@1d1071bb, org.springframework.web.filter.CorsFilter@1931d9f3, org.springframework.security.web.authentication.logout.LogoutFilter@8968fe8, com.carrental.security.JwtAuthenticationFilter@5e81b406, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@c5a82d6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@697714d8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2222aa18, org.springframework.security.web.session.SessionManagementFilter@49e335a5, org.springframework.security.web.access.ExceptionTranslationFilter@55d41b85, org.springframework.security.web.access.intercept.AuthorizationFilter@4d026a3a]
+2026-06-02 14:21:15 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-06-02 14:21:15 [main] INFO  com.carrental.CarRentalApplication - Started CarRentalApplication in 8.388 seconds (process running for 9.821)
+2026-06-02 14:21:15 [main] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id 
+    from
+        users au1_0 
+    where
+        au1_0.email=? 
+    limit
+        ?
+2026-06-02 14:21:15 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        cars c1_0
+2026-06-02 14:21:21 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-02 14:21:21 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-02 14:21:21 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-06-02 14:21:21 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.brand,
+        c1_0.city,
+        c1_0.created_at,
+        c1_0.daily_rate,
+        c1_0.description,
+        c1_0.fuel_type,
+        c1_0.image_url,
+        c1_0.license_plate,
+        c1_0.manufacture_year,
+        c1_0.model,
+        c1_0.seats,
+        c1_0.status,
+        c1_0.transmission,
+        c1_0.updated_at,
+        c1_0.vehicle_type,
+        c1_0.version 
+    from
+        cars c1_0 
+    where
+        c1_0.status=? 
+    order by
+        c1_0.created_at desc 
+    limit
+        ?, ?
+2026-06-02 14:21:21 [http-nio-8080-exec-1] WARN  org.springframework.data.web.config.SpringDataJacksonConfiguration$PageModule$PlainPageSerializationWarning - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-02 14:21:57 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        au1_0.id,
+        au1_0.account_non_locked,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.enabled,
+        au1_0.full_name,
+        au1_0.password,
+        au1_0.phone,
+        au1_0.role 
+    from
+        users au1_0 
+    where
+        au1_0.email=?
+2026-06-02 14:21:57 [http-nio-8080-exec-2] ERROR com.carrental.security.JwtAuthenticationFilter - Cannot set user authentication: User not found
+2026-06-02 14:31:03 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.brand,
+        c1_0.city,
+        c1_0.created_at,
+        c1_0.daily_rate,
+        c1_0.description,
+        c1_0.fuel_type,
+        c1_0.image_url,
+        c1_0.license_plate,
+        c1_0.manufacture_year,
+        c1_0.model,
+        c1_0.seats,
+        c1_0.status,
+        c1_0.transmission,
+        c1_0.updated_at,
+        c1_0.vehicle_type,
+        c1_0.version 
+    from
+        cars c1_0 
+    where
+        c1_0.status=? 
+    order by
+        c1_0.created_at desc 
+    limit
+        ?, ?

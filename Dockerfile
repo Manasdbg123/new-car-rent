@@ -1,9 +1,14 @@
-FROM eclipse-temurin:21-jdk
+# Use a lightweight OpenJDK image
+FROM eclipse-temurin:21-jre-alpine
 
+# Set the working directory
 WORKDIR /app
 
-COPY target/car-rental-system.jar app.jar
+# Copy the packaged jar file from your target folder
+COPY target/*.jar app.jar
 
+# Expose the application port
 EXPOSE 8080
 
+# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
