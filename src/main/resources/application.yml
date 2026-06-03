@@ -4,7 +4,7 @@ spring:
     active: dev
 
   # ==========================================
-  # THIS IS THE MISSING EMAIL CONFIGURATION!
+  # EMAIL CONFIGURATION
   # ==========================================
   mail:
     host: smtp.gmail.com
@@ -52,6 +52,13 @@ spring:
   config:
     activate:
       on-profile: prod
+  
+  # ==========================================
+  # DISABLED FLYWAY TO FIX POSTGRES 18 ERROR
+  # ==========================================
+  flyway:
+    enabled: false
+    
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
