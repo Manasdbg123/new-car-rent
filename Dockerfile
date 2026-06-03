@@ -1,7 +1,7 @@
 # ==========================================
 # STAGE 1: Build the Application
 # ==========================================
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 
 # Copy the pom.xml and download dependencies
@@ -15,7 +15,7 @@ RUN mvn clean package -DskipTests
 # ==========================================
 # STAGE 2: Run the Application
 # ==========================================
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 # Copy the built .jar file from Stage 1
