@@ -1,7 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     initApp();
     setupEventListeners();
-    window.addEventListener('hashchange', handleRouting);
+
+    // Listen for the browser's Back/Forward buttons
+    window.addEventListener('popstate', handleRouting);
+
+    // Intercept all clicks on internal navigation links
+    document.body.addEventListener('click', e => {
+        const link = e.target.closest('a');
+        if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('/')) {
+            e.preventDefault();
+            navigateTo(link.getAttribute('href'));
+        }
+    });
+
     handleRouting();
 });
 
@@ -12,6 +24,11 @@ function initApp() {
 // ==========================================
 // ROUTING & NAVIGATION LOGIC
 // ==========================================
+window.navigateTo = (path) => {
+    history.pushState(null, '', path);
+    handleRouting();
+};
+
 window.executeHeroSearch = (forcedCity, forcedType) => {
     const loc = forcedCity || document.getElementById('heroLocation').value;
     const type = forcedType || document.getElementById('heroType').value;
@@ -22,42 +39,46 @@ window.executeHeroSearch = (forcedCity, forcedType) => {
     if (type === 'cars' && carCityFilter) carCityFilter.value = loc;
     else if (type === 'bikes' && bikeCityFilter) bikeCityFilter.value = loc;
 
-    window.location.hash = '#' + type;
+    navigateTo('/' + type);
     filterVehicles();
 };
 
 function handleRouting() {
-    let hash = window.location.hash || '#home';
+    let path = window.location.pathname;
+    if (path === '/' || path === '') path = '/home';
 
-    if (hash === '#dashboard' && !isAuthenticated()) {
+    if (path === '/dashboard' && !isAuthenticated()) {
         alert("Please login to access your dashboard.");
-        window.location.hash = '#home';
+        navigateTo('/home');
         showModal('loginModal');
         return;
     }
 
     document.querySelectorAll('.page-view').forEach(view => view.style.display = 'none');
 
-    const targetView = document.querySelector(hash + '-view');
+    let viewName = path.substring(1) + '-view';
+    const targetView = document.getElementById(viewName);
+
     if (targetView) targetView.style.display = 'block';
     else document.getElementById('home-view').style.display = 'block';
 
     document.querySelectorAll('.nav-links .nav-item').forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('href') === hash) link.classList.add('active');
+        if (link.getAttribute('href') === path) link.classList.add('active');
     });
 
-    if (hash === '#cars' || hash === '#bikes') filterVehicles();
-    else if (hash === '#dashboard') loadMyBookings();
+    // Route to specific logic
+    if (path === '/cars' || path === '/bikes') filterVehicles();
+    else if (path === '/dashboard') loadMyBookings();
+    else if (path === '/admin') loadAdminDashboard(); // Admin Route
 }
 
 // ==========================================
 // MODAL & UI CONTROLS
 // ==========================================
-function showModal(id) { document.getElementById(id).style.display = 'flex'; }
-function hideModal(id) { document.getElementById(id).style.display = 'none'; }
+window.showModal = function(id) { document.getElementById(id).style.display = 'flex'; }
+window.hideModal = function(id) { document.getElementById(id).style.display = 'none'; }
 
-// Global timer variable for real-time inventory locks
 let bookingTimerInterval;
 
 window.closeBookingModal = () => {
@@ -73,21 +94,9 @@ window.openInfoModal = (vehicleType, brandName) => {
     title.innerText = `Rental Conditions: ${brandName}`;
 
     if(vehicleType === 'BIKE') {
-        body.innerHTML = `
-            <p style="margin-top:0;"><strong>🏍️ Two-Wheeler Deployment Protocols:</strong></p>
-            <ul style="padding-left:20px; line-height:1.6;">
-                <li><strong>Helmets Provided:</strong> One complimentary safety helmet included.</li>
-                <li><strong>Security Hold:</strong> A temporary holding credit authorization of $100.</li>
-            </ul>
-        `;
+        body.innerHTML = `<p style="margin-top:0;"><strong>🏍️ Two-Wheeler Deployment Protocols:</strong></p><ul style="padding-left:20px; line-height:1.6;"><li><strong>Helmets Provided:</strong> One complimentary safety helmet included.</li><li><strong>Security Hold:</strong> A temporary holding credit authorization of $100.</li></ul>`;
     } else {
-        body.innerHTML = `
-            <p style="margin-top:0;"><strong>🚗 Four-Wheeler Fleet Regulations:</strong></p>
-            <ul style="padding-left:20px; line-height:1.6;">
-                <li><strong>Unlimited Mileage:</strong> Drive across boundaries with infinite transit operations.</li>
-                <li><strong>Security Hold:</strong> A temporary holding credit authorization of $300.</li>
-            </ul>
-        `;
+        body.innerHTML = `<p style="margin-top:0;"><strong>🚗 Four-Wheeler Fleet Regulations:</strong></p><ul style="padding-left:20px; line-height:1.6;"><li><strong>Unlimited Mileage:</strong> Drive across boundaries with infinite transit operations.</li><li><strong>Security Hold:</strong> A temporary holding credit authorization of $300.</li></ul>`;
     }
     showModal('infoModal');
 };
@@ -95,7 +104,7 @@ window.openInfoModal = (vehicleType, brandName) => {
 window.closeInfoModal = () => hideModal('infoModal');
 
 // ==========================================
-// DYNAMIC SERVER-SIDE SEARCH ENGINE
+// DYNAMIC SERVER-SIDE SEARCH ENGINE & SKELETONS
 // ==========================================
 let searchTimeout;
 window.debounceFilter = () => {
@@ -104,10 +113,10 @@ window.debounceFilter = () => {
 };
 
 window.filterVehicles = async () => {
-    let hash = window.location.hash || '#home';
-    if(hash !== '#cars' && hash !== '#bikes') return;
+    let path = window.location.pathname;
+    if(path !== '/cars' && path !== '/bikes') return;
 
-    let isCarPage = hash === '#cars';
+    let isCarPage = path === '/cars';
     let type = isCarPage ? 'CAR' : 'BIKE';
 
     let citySelect = document.getElementById(isCarPage ? 'carCityFilter' : 'bikeCityFilter');
@@ -128,9 +137,20 @@ window.filterVehicles = async () => {
     const gridId = isCarPage ? 'carList' : 'bikeList';
     const grid = document.getElementById(gridId);
 
-    if (grid) grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px;"><h3 style="color:#0056b3;">Searching database...</h3></div>';
+    if (grid) {
+        grid.innerHTML = Array(6).fill(`
+            <div class="skeleton-card">
+                <div class="skeleton-img"></div>
+                <div class="skeleton-text"></div>
+                <div class="skeleton-text short"></div>
+                <div class="skeleton-btn"></div>
+            </div>
+        `).join('');
+    }
 
     try {
+        await new Promise(resolve => setTimeout(resolve, 350));
+
         const res = await fetch(`/api/cars/available?${params.toString()}`);
         if (!res.ok) throw new Error("Search API failed");
 
@@ -186,13 +206,80 @@ function renderVehicles(vehicles, containerId) {
 }
 
 // ==========================================
-// BOOKING & INVENTORY LOCK SYSTEM
+// KYC (KNOW YOUR CUSTOMER) LOGIC
+// ==========================================
+async function checkKycStatus() {
+    const banner = document.getElementById('kycBanner');
+    if (!banner || !isAuthenticated()) return;
+
+    try {
+        const res = await secureFetch('/api/kyc/status');
+        const data = await res.json();
+
+        if (data.data !== "APPROVED") {
+            banner.style.display = 'flex';
+        } else {
+            banner.style.display = 'none';
+        }
+    } catch(e) { console.error(e); }
+}
+
+window.handleKycUpload = async (e) => {
+    e.preventDefault();
+    const fileInput = document.getElementById('kycDocument');
+    if (!fileInput.files[0]) return alert("Please select a file.");
+
+    const btn = document.getElementById('kycSubmitBtn');
+    btn.innerText = "Uploading & Verifying...";
+    btn.disabled = true;
+
+    // Use FormData for file uploads
+    const formData = new FormData();
+    formData.append("document", fileInput.files[0]);
+
+    const token = localStorage.getItem('accessToken');
+    try {
+        const res = await fetch('/api/kyc/upload', {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }, // Browser auto-sets multipart boundary
+            body: formData
+        });
+
+        if (res.ok) {
+            alert("Document verified successfully! You can now book vehicles.");
+            hideModal('kycModal');
+            checkKycStatus(); // Hide the warning banner
+        } else {
+            alert("Upload failed. Please try a different file.");
+        }
+    } catch(err) {
+        console.error(err);
+    } finally {
+        btn.innerText = "Submit for Verification";
+        btn.disabled = false;
+        document.getElementById('kycForm').reset();
+    }
+}
+
+// ==========================================
+// BOOKING & INVENTORY LOCK SYSTEM (WITH KYC)
 // ==========================================
 window.openBookingModal = async (carId, carName) => {
     if (!isAuthenticated()) { alert('Please login to continue.'); showModal('loginModal'); return; }
 
+    // --- KYC CHECK BEFORE BOOKING ---
     try {
-        // Attempt to acquire an inventory lock
+        const kycRes = await secureFetch('/api/kyc/status');
+        const kycData = await kycRes.json();
+        if (kycData.data !== "APPROVED") {
+            alert("Security Check: You must verify your Driver's License before booking.");
+            navigateTo('/dashboard');
+            return;
+        }
+    } catch(e) { console.error("KYC check failed:", e); }
+    // -------------------------------------
+
+    try {
         const res = await secureFetch(`/api/cars/${carId}/lock`, { method: 'POST' });
         if (!res.ok) {
             alert('This vehicle is currently reserved by another user finishing their checkout. Please try again in 10 minutes.');
@@ -204,7 +291,6 @@ window.openBookingModal = async (carId, carName) => {
         document.getElementById('startDate').value = '';
         document.getElementById('endDate').value = '';
 
-        // Launch 10 Minute Countdown UI
         let timeRemaining = 600;
         const timerUI = document.getElementById('lockTimer');
         if(timerUI) timerUI.style.display = 'block';
@@ -222,14 +308,12 @@ window.openBookingModal = async (carId, carName) => {
                 clearInterval(bookingTimerInterval);
                 hideModal('bookingModal');
                 alert('Your reservation hold has expired. The vehicle has been returned to the public pool.');
-                filterVehicles(); // Refresh the grid
+                filterVehicles();
             }
         }, 1000);
 
         showModal('bookingModal');
-    } catch(e) {
-        console.error("Lock failed:", e);
-    }
+    } catch(e) { console.error("Lock failed:", e); }
 }
 
 window.confirmBooking = async () => {
@@ -251,7 +335,7 @@ window.confirmBooking = async () => {
             clearInterval(bookingTimerInterval);
             alert('Your booking is confirmed!');
             hideModal('bookingModal');
-            window.location.hash = '#dashboard';
+            navigateTo('/dashboard');
         } else {
             let err; try { err = await res.json(); } catch(e){}
             alert('Booking failed: ' + (err?.message || 'Dates are unavailable.'));
@@ -260,9 +344,11 @@ window.confirmBooking = async () => {
 }
 
 // ==========================================
-// DASHBOARD (MY BOOKINGS)
+// DASHBOARD (MY BOOKINGS & KYC STATUS)
 // ==========================================
 async function loadMyBookings() {
+    checkKycStatus(); // Trigger KYC Check when dashboard loads
+
     const grid = document.getElementById('myBookings');
     if (!grid) return;
     grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Loading your dashboard...</p>';
@@ -275,7 +361,7 @@ async function loadMyBookings() {
         const bookings = data.data || data;
 
         if (!Array.isArray(bookings) || bookings.length === 0) {
-            grid.innerHTML = '<div style="text-align:center; grid-column: 1/-1; padding: 60px 20px; background:#f8f9fa; border-radius:8px;"><h3>You have no active reservations.</h3><br> <a href="#cars" class="btn primary-btn">Start Searching</a></div>';
+            grid.innerHTML = '<div style="text-align:center; grid-column: 1/-1; padding: 60px 20px; background:#f8f9fa; border-radius:8px;"><h3>You have no active reservations.</h3><br> <a href="/cars" class="btn primary-btn">Start Searching</a></div>';
             return;
         }
 
@@ -311,6 +397,55 @@ window.cancelBooking = async (bookingId) => {
 }
 
 // ==========================================
+// ADMIN DASHBOARD ANALYTICS
+// ==========================================
+let adminChartInstance = null;
+
+async function loadAdminDashboard() {
+    try {
+        const res = await secureFetch('/api/admin/stats');
+        if (res.status === 403 || res.status === 401) {
+            alert("Access Denied: You do not have Administrator privileges.");
+            navigateTo('/home');
+            return;
+        }
+
+        const data = await res.json();
+        const stats = data.data;
+
+        document.getElementById('statRevenue').innerText = '$' + (stats.totalRevenue || 0).toLocaleString();
+        document.getElementById('statBookings').innerText = stats.activeBookings || 0;
+        document.getElementById('statVehicles').innerText = stats.totalVehicles || 0;
+        document.getElementById('statUsers').innerText = stats.totalUsers || 0;
+
+        const ctx = document.getElementById('adminChart').getContext('2d');
+        if(adminChartInstance) adminChartInstance.destroy();
+
+        adminChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Active Bookings', 'Total Fleet', 'Total Users'],
+                datasets: [{
+                    label: 'Platform Metrics',
+                    data: [stats.activeBookings, stats.totalVehicles, stats.totalUsers],
+                    backgroundColor: ['#007bff', '#ffc107', '#6f42c1'],
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'System Overview' }
+                }
+            }
+        });
+
+    } catch (e) {
+        console.error("Failed to load Admin Dashboard:", e);
+    }
+}
+
+// ==========================================
 // AUTHENTICATION & SECURITY
 // ==========================================
 function setupEventListeners() {
@@ -322,8 +457,16 @@ function setupEventListeners() {
     document.getElementById('registerForm')?.addEventListener('submit', handleRegister);
 }
 
-function isAuthenticated() { return localStorage.getItem('accessToken') !== null; }
-window.handleLogout = () => { localStorage.clear(); window.location.hash = '#home'; location.reload(); }
+function isAuthenticated() {
+    const token = localStorage.getItem('accessToken');
+    return token !== null && token !== 'undefined' && token !== '';
+}
+
+window.handleLogout = () => {
+    localStorage.clear();
+    setupNavbar(); // Instantly reset UI
+    navigateTo('/home');
+}
 
 function setupNavbar() {
     const authContainer = document.getElementById('authButtons');
@@ -336,11 +479,7 @@ function setupNavbar() {
             <button class="btn login-btn" style="border:2px solid #dc3545 !important; color:#dc3545 !important;" onclick="handleLogout()">Logout</button>
         `;
     } else {
-        authContainer.innerHTML = `
-            <button class="btn login-btn" id="openLogin">Sign In</button>
-            <button class="btn register-btn" id="openRegister">Register</button>
-        `;
-        // Re-attach event listeners after DOM injection
+        authContainer.innerHTML = `<button class="btn login-btn" id="openLogin">Sign In</button><button class="btn register-btn" id="openRegister">Register</button>`;
         document.getElementById('openLogin').addEventListener('click', () => showModal('loginModal'));
         document.getElementById('openRegister').addEventListener('click', () => showModal('registerModal'));
     }
@@ -352,7 +491,6 @@ async function secureFetch(url, options = {}) {
     if (token) options.headers['Authorization'] = `Bearer ${token}`;
 
     const response = await fetch(url, options);
-    // Auto-logout if the token expires (Now properly handling HTTP 401s from the backend)
     if (response.status === 401) handleLogout();
     return response;
 }
@@ -371,17 +509,21 @@ async function handleLogin(e) {
 
         if (res.ok) {
             const data = await res.json();
-            localStorage.setItem('accessToken', data.data?.accessToken || data.accessToken);
-            localStorage.setItem('userFullName', data.data?.user?.fullName || data.user?.fullName || 'User');
+            const token = data.data?.accessToken || data.accessToken || data.token;
+            const name = data.data?.user?.fullName || data.user?.fullName || 'User';
+
+            localStorage.setItem('accessToken', token);
+            localStorage.setItem('userFullName', name);
+
             hideModal('loginModal');
             document.getElementById('loginForm').reset();
-            window.location.hash = '#dashboard';
-            window.location.reload();
+            setupNavbar();
+            navigateTo('/dashboard');
         } else {
             alert('Login failed. Please check your credentials.');
         }
     } catch(err) {
-        console.error(err);
+        console.error("Login Error:", err);
     }
 }
 
@@ -400,7 +542,6 @@ async function handleRegister(e) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-
         if (res.ok) {
             alert('Account created! Please log in.');
             hideModal('registerModal');

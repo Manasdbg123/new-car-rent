@@ -55,7 +55,6 @@ public class CarController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ApiResponse<CarResponse>> getCarById(@PathVariable Long id) {
-		// FIXED: Removed the extra '>' after CarResponse
 		return ResponseEntity.ok(ApiResponse.<CarResponse>builder()
 				.success(true)
 				.data(carService.getCarById(id))
@@ -92,7 +91,6 @@ public class CarController {
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<CarResponse>> createCar(@Valid @RequestBody CarRequest request) {
-		// FIXED: Removed the extra '>' after CarResponse
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.<CarResponse>builder()
 				.success(true)
 				.data(carService.createCar(request))
@@ -103,7 +101,6 @@ public class CarController {
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<CarResponse>> updateCar(@PathVariable Long id, @Valid @RequestBody CarRequest request) {
-		// FIXED: Removed the extra '>' after CarResponse
 		return ResponseEntity.ok(ApiResponse.<CarResponse>builder()
 				.success(true)
 				.data(carService.updateCar(id, request))

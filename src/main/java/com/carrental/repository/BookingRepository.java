@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.LockModeType;
 
+import java.math.BigDecimal; // Required for calculateTotalRevenue
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -57,4 +58,14 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 			@Param("startAt") LocalDateTime startAt,
 			@Param("endAt") LocalDateTime endAt
 	);
+
+	// =========================================
+	// NEW ADMIN DASHBOARD AGGREGATION QUERIES
+	// =========================================
+
+	@Query("SELECT COUNT(b) FROM Booking b WHERE b.status = 'CONFIRMED'")
+	long countActiveBookings();
+
+	@Query("SELECT COALESCE(SUM(b.totalAmount), 0) FROM Booking b WHERE b.status = 'CONFIRMED'")
+	BigDecimal calculateTotalRevenue();
 }

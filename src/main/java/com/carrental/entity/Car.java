@@ -22,10 +22,7 @@ public class Car {
 
 	private String brand;
 	private String model;
-
-	// FIXED: Added the missing manufactureYear field back!
 	private Integer manufactureYear;
-
 	private String transmission;
 	private String city;
 	private Integer seats;
