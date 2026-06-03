@@ -318,6 +318,7 @@ window.openBookingModal = async (carId, carName) => {
 
 window.confirmBooking = async () => {
     const carId = document.getElementById('bookingCarId').value;
+    const carName = document.getElementById('bookingCarName').innerText.replace("Reserve: ", "");
     const rawStart = document.getElementById('startDate').value;
     const rawEnd = document.getElementById('endDate').value;
 
@@ -330,12 +331,30 @@ window.confirmBooking = async () => {
     };
 
     try {
+        // 1. Create the Booking in our Database
         const res = await secureFetch('/api/bookings', { method: 'POST', body: JSON.stringify(payload) });
+
         if (res.ok) {
-            clearInterval(bookingTimerInterval);
-            alert('Your booking is confirmed!');
-            hideModal('bookingModal');
-            navigateTo('/dashboard');
+            const data = await res.json();
+            const totalAmount = data.data?.totalAmount || 150; // Fallback to $150 if backend doesn't return amount
+
+            // 2. Ask backend to generate a Stripe Checkout link
+            const stripeRes = await secureFetch('/api/payments/create-checkout-session', {
+                method: 'POST',
+                body: JSON.stringify({ carName: carName, amount: totalAmount })
+            });
+
+            if (stripeRes.ok) {
+                const stripeData = await stripeRes.json();
+
+                clearInterval(bookingTimerInterval);
+                hideModal('bookingModal');
+
+                // 3. SECURE REDIRECT: Send user to the official Stripe Hosted Page!
+                window.location.href = stripeData.data.checkoutUrl;
+            } else {
+                alert("Payment gateway is currently unavailable.");
+            }
         } else {
             let err; try { err = await res.json(); } catch(e){}
             alert('Booking failed: ' + (err?.message || 'Dates are unavailable.'));

@@ -9,6 +9,10 @@ jwt:
   expiration: ${JWT_EXPIRATION:86400000}
   refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000}
 
+# CORRECTED STRIPE CONFIGURATION
+stripe:
+  api:
+    key: sk_test_51Te9s0F1MT8HJYfLI3RacncjP5j2fhfc09mmCtyuY3XJ8h8ZzAxzd0BfG72N9IZvcGCCzqAZbwcxcwMKyr8k89yb0083dBxaB0
 ---
 # Local Development Profile
 spring:
