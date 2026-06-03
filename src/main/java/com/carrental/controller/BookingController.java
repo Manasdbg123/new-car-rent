@@ -6,6 +6,8 @@ import com.carrental.dto.response.BookingResponse;
 import com.carrental.entity.AppUser;
 import com.carrental.repository.UserRepository;
 import com.carrental.service.BookingService;
+import com.carrental.service.EmailService; // <-- NEW IMPORT
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +21,13 @@ public class BookingController {
 
 	private final BookingService bookingService;
 	private final UserRepository userRepository;
+	private final EmailService emailService; // <-- NEW FIELD
 
 	// Explicit constructor to bypass Lombok issues
-	public BookingController(BookingService bookingService, UserRepository userRepository) {
+	public BookingController(BookingService bookingService, UserRepository userRepository, EmailService emailService) {
 		this.bookingService = bookingService;
 		this.userRepository = userRepository;
+		this.emailService = emailService; // <-- INJECTED
 	}
 
 	@PostMapping
@@ -37,6 +41,21 @@ public class BookingController {
 				.orElseThrow(() -> new RuntimeException("User identity error"));
 
 		BookingResponse response = bookingService.createBooking(user.getId(), request);
+
+		// ==========================================
+		// NEW: TRIGGER BACKGROUND INVOICE EMAIL
+		// ==========================================
+		// Grabbing details from the response DTO to format the email
+		String carName = response.getCarBrand() + " " + response.getCarModel();
+		String totalAmount = String.valueOf(response.getTotalAmount());
+
+		emailService.sendBookingInvoice(
+				user.getEmail(),
+				user.getFullName(),
+				carName,
+				totalAmount
+		);
+		// ==========================================
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(
 				ApiResponse.<BookingResponse>builder()

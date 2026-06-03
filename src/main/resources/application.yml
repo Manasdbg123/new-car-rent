@@ -3,13 +3,28 @@ spring:
   profiles:
     active: dev
 
-# NEW: JWT Configuration mapping
+  # ==========================================
+  # THIS IS THE MISSING EMAIL CONFIGURATION!
+  # ==========================================
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: YOUR_EMAIL@gmail.com
+    password: YOUR_16_CHARACTER_APP_PASSWORD
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# JWT Configuration mapping
 jwt:
   secret: ${JWT_SECRET:your-super-secret-key-your-super-secret-key-which-must-be-long-enough}
   expiration: ${JWT_EXPIRATION:86400000}
   refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000}
 
-# CORRECTED STRIPE CONFIGURATION
+# STRIPE CONFIGURATION
 stripe:
   api:
     key: sk_test_51Te9s0F1MT8HJYfLI3RacncjP5j2fhfc09mmCtyuY3XJ8h8ZzAxzd0BfG72N9IZvcGCCzqAZbwcxcwMKyr8k89yb0083dBxaB0
