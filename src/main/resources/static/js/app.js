@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initApp() {
     setupNavbar();
+    renderFooter(); // <-- Added this to dynamically inject your footer!
 }
 
 // ==========================================
@@ -571,4 +572,35 @@ async function handleRegister(e) {
     } catch(err) {
         console.error(err);
     }
+}
+
+// ==========================================
+// DYNAMIC FOOTER RENDERER
+// ==========================================
+function renderFooter() {
+    // Check if footer already exists so we don't accidentally render two of them
+    if (document.getElementById('drivex-footer')) return;
+
+    const currentYear = new Date().getFullYear();
+
+    const footerHTML = `
+        <footer id="drivex-footer" style="background-color: #1a1a1a; color: #ffffff; padding: 40px 20px; margin-top: 50px; text-align: center; font-family: Arial, sans-serif; width: 100%;">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h3 style="margin: 0 0 10px 0; font-size: 24px;">DriveX Car Rentals</h3>
+                <p style="color: #a0a0a0; margin-bottom: 20px;">Premium vehicles for your next adventure.</p>
+                
+                <div style="margin: 20px 0; line-height: 1.8; font-size: 16px;">
+                    <p style="margin: 5px 0;">📍 Bengaluru, Karnataka</p>
+                    <p style="margin: 5px 0;">👤 <strong>Manas Kumar</strong></p>
+                    <p style="margin: 5px 0;">📞 <a href="tel:+917061356710" style="color: #4da6ff; text-decoration: none;">+91 706 135 6710</a></p>
+                    <p style="margin: 5px 0;">✉️ <a href="mailto:kaustuk2003@gmail.com" style="color: #4da6ff; text-decoration: none;">kaustuk2003@gmail.com</a></p>
+                </div>
+                
+                <p style="color: #666666; font-size: 14px; margin-top: 30px;">© ${currentYear} DriveX. All rights reserved.</p>
+            </div>
+        </footer>
+    `;
+    
+    // Inject the footer at the very end of the page body
+    document.body.insertAdjacentHTML('beforeend', footerHTML);
 }
