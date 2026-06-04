@@ -74,7 +74,13 @@ public class AuthService {
 		String accessToken = jwtService.generateToken(user);
 		String refreshTokenValue = jwtService.generateRefreshToken(user);
 
-		RefreshToken refreshToken = new RefreshToken();
+		// ==========================================
+		// FIX: UPSERT PATTERN FOR REFRESH TOKEN
+		// ==========================================
+		// Look for an existing token. If found, update it. If not, create a new one.
+		RefreshToken refreshToken = refreshTokenRepository.findByUser(user)
+				.orElse(new RefreshToken());
+
 		refreshToken.setToken(refreshTokenValue);
 		refreshToken.setUser(user);
 		refreshToken.setExpiryDate(LocalDateTime.now().plusDays(7));
